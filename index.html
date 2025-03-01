@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+    <meta name="description" content="Our game studio, nestled in the heart of Buenos Aires, is a hub of creativity where passionate developers collaborate to craft immersive and thrilling gaming experiences. We specialize in designing games that captivate players with compelling narratives, innovative gameplay mechanics, and visually stunning worlds.">
+    <meta property="og:title" content="White Suit Studio">
+    <meta property="og:description" content="Our game studio, nestled in the heart of Buenos Aires, is a hub of creativity where passionate developers collaborate to craft immersive and thrilling gaming experiences. We specialize in designing games that captivate players with compelling narratives, innovative gameplay mechanics, and visually stunning worlds.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://www.whitesuit.studio">
+    <meta property="og:image" content="images/white-suit-1920.jpeg">
+    <title>white suit studio</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q6HSPWKRKY"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q6HSPWKRKY');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
+    <style>
+        /*
+        reset
+        */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        strong, em {
+            font-weight: 300;
+            font-style: normal;
+            font-family: "Raleway", serif;
+        }
+
+        body {
+            font-family: "Raleway", serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
+            font-style: normal;
+            font-size: 16px;
+            line-height: 1.5;
+            font-size: 16px;
+            line-height: 22px;
+        }
+
+        .main-content {
+            color: #1f1f1f;
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            top: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .main-content h1 {
+            font-weight: 300;
+            letter-spacing: .5rem;
+            font-size: 2.5rem;
+            line-height: 2.8rem;
+            text-align: center;
+            padding: 0 1rem;
+            margin-top: .7rem;
+            margin-bottom: 1rem;
+        }
+
+        .main-content p {
+            width: 95%;
+            max-width: 720px;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .main-image {
+            position: relative;
+            z-index: 1;
+            height: auto;
+            max-width: 500px;
+            width: 70%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto 1rem;
+        } 
+
+        .new-game-section {
+            position: relative;
+            margin-top: 3rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .new-game-section h2 {
+            font-size: 1rem;
+            line-height: 1.1rem;
+            text-align: center;
+            padding: 0 1rem;
+        }
+        .new-game-section .link-game {
+            background-color: transparent;
+            padding: .5rem 2rem;
+            border-radius: 5px;
+            text-decoration: underline;
+            font-size: 1rem;
+            line-height: 1.1rem;
+        }
+        .new-game-section .link-game:hover {
+            opacity: .5;
+        }
+
+        .main-footer {
+            /* position: absolute;
+            bottom: 1rem;
+            left: 0; */
+            width: 100%;
+        }
+
+        .main-footer p {
+            text-align: left;
+        }
+        
+        @media (max-width: 960px) {
+            
+
+            .main-content {
+                padding: 1rem 0 .5rem;
+            }
+
+            .main-content p {
+                width: 90%;
+            }
+        
+            .main-footer {
+                font-size: .7rem;
+                line-height: .9rem;
+                padding: .2rem;
+                margin-top: 4rem;
+                position: relative;
+                bottom: auto;
+            }
+
+            .main-image {
+                width: 90%;
+            }
+
+            .main-content h1 {
+                letter-spacing: .5rem;
+                font-size: 1.5rem;
+                line-height: 2rem;
+                padding: 0 1rem;
+                margin-top: .7rem;
+                margin-bottom: 1rem;
+            }
+
+            .new-game-section {
+                flex-direction: column;
+            }
+        }
+        
+        @media(min-height:768px) {
+            .main-content {
+                height: 100vh;
+                padding: 0;
+            }
+            .main-footer {
+                margin-top: 0;
+                position: absolute;
+                bottom: 1rem;
+                left: 0;
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div  class="main-content">
+        <main>
+
+            <picture>
+                <source media="(min-width: 1500px)" srcset="images/white-suit-1920.jpeg 1x, images/white-suit.jpeg 2x, images/white-suit.jpeg 3x">
+                <source media="(min-width: 1200px)" srcset="images/white-suit-1200.jpeg 1x, images/white-suit-1920.jpeg 2x, images/white-suit-1920.jpeg 3x">
+                <source media="(min-width: 768px)" srcset="images/white-suit-1200.jpeg 1x, images/white-suit-1920.jpeg 2x, images/white-suit.jpeg 3x">
+                <source media="(min-width: 100px)" srcset="images/white-suit-769.jpeg 1x, images/white-suit-1200.jpeg 2x, images/white-suit-1200.jpeg 3x">
+                <img class="main-image" src="images/white-suit.jpeg" alt="White Suit Studio Logo">
+            </picture>
+
+            <div>
+                <h1>
+                    <strong>white suit</strong> studio
+                </h1>
+                <p>
+                    Our <em>game studio</em>, nestled in the heart of Buenos Aires, is a hub of creativity where passionate developers collaborate to craft immersive and thrilling gaming experiences. <strong>We specialize in designing games that captivate players with compelling narratives, innovative gameplay mechanics, and visually stunning worlds.</strong>
+                </p>
+            </div>
+
+
+        </main>
+
+        <section class="new-game-section">
+            <h2>
+                Know our new game: Pasala!
+            </h2>
+            <a class="link-game" href="https://pasala.whitesuit.studio" target="_blank">Go for it!</a>
+        </section>
+
+        <footer class="main-footer">
+            <p>
+                &copy; 2025 White Suit Studio. All rights reserved.
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>
