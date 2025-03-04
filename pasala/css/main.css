@@ -222,7 +222,14 @@ body {
  *  Main Content
  ********************************/
 
-.main-content {
+ .character-image {
+    display: block;
+    max-width: 100%;
+    width: 50%;
+    margin: 0 auto 1rem;
+ }
+
+ .main-content {
     margin-top: 3rem;
     padding: 0 1rem;
 }
@@ -242,8 +249,12 @@ body {
     margin-bottom: 2rem;
 }
 
-.main-content p {
+.main-content p, .main-content ul {
     margin-bottom: 1rem;
+}
+
+.main-content ul {
+    margin-left: 1rem;
 }
 
 .square-wrapper {
@@ -416,10 +427,9 @@ body {
 .press-grid h2 {
     font-size: 1.8rem;
     line-height: 2.5rem;
-    margin-bottom: 1rem;
 }
 
-.press-grid p {
+.press-grid p, .press-grid ul, .press-grid h2 {
     margin-bottom: 1rem;
 }
 
