@@ -90,10 +90,13 @@ h1, h2, h3, h4, h5, h6 {
 /* BASE */
 body {
     font-family: var(--font-primary);
-    background-color: var(--background-color);
     font-size: 16px;
     line-height: 24px;
-    color: var(--text-color);;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    background-image: url('../images/background.png');
+    background-size: 40%;
+    background-blend-mode: soft-light;
 }
 
 .wrapper {
@@ -105,7 +108,9 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
 }
+
 
 .stores-badget {
     width: 100%;
@@ -120,6 +125,10 @@ body {
  *  Header
  ********************************/
 
+ .logo-image {
+    display: block;
+    max-width: 265px;
+ }
 
 .main-title {
     text-align: center;
