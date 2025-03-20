@@ -99,6 +99,10 @@ body {
     background-blend-mode: soft-light;
 }
 
+body.no-image {
+    background-image: none;
+}
+
 .wrapper {
     width: 100%;
     max-width: 1200px;
@@ -128,6 +132,7 @@ body {
  .logo-image {
     display: block;
     max-width: 265px;
+    margin: 0 auto;
  }
 
 .main-title {
