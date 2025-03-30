@@ -1,0 +1,222 @@
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+}
+
+/*Variables*/
+:root {
+    --primary-color: #fff;
+    --secondary-color: #29778d;
+    --accent-color: #7d2f00;
+    --background-light-color: #444;
+    --background-accent-color: #333;
+    --background-color: #222;
+    --text-color: #fff;
+    --font-primary: 'Open Sans', sans-serif;;
+    --font-secondary:  'Roboto Slab', serif;
+}
+
+body {
+    font-family: var(--font-primary);
+    margin: 0;
+    background-color: var(--background-color); /* Dark background */
+    color: var(--text-color); /* Light text */
+    line-height: 26px;
+    font-size: 16px;
+   
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: var(--background-accent-color);
+    padding: 200px 0 200px;
+    text-align: center;
+    background-image: url('../images/abandon-city.jpeg'); /* Replace with your header image */
+    background-size: cover;
+    background-position: center 60%;
+    color: var(--text-color)
+}
+
+header h1 {
+    font-family: var(--font-secondary);
+    font-size: 3em;
+    margin-bottom: 20px;
+    line-height: 3.5rem;
+}
+
+header p.elevator-pitch {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.button {
+    display: inline-block;
+    background-color: #555;
+    color: var(--text-color);
+    padding: .5rem 2rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.button:hover {
+    background-color: #777;
+}
+
+.content-section {
+    padding: 60px 0;
+}
+
+#main-description .container {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    flex-direction: column;
+}
+
+.description-text {
+    flex: 1;
+}
+
+.description-image {
+    flex: 1;
+}
+
+.description-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.description-text p {
+    margin-bottom: 1rem;
+}
+
+#unique-features {
+    background-color: var(--background-accent-color);
+}
+
+#unique-features h2, .description-text h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-family: var(--font-secondary);
+    font-size: 2.5em;
+    line-height: 3rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    background-color: var(--background-light-color);
+    padding: 30px 30px 50px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.feature-card.specially {
+    background-image: url('../images/screenshot4.jpeg');
+    background-size: cover;
+    background-position: center;
+}
+
+.feature-card img {
+    max-width: 80px;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    font-family: var(--font-secondary);
+    margin-bottom: 10px;
+}
+
+footer {
+    background-color: var(--background-color);
+    padding: 30px 0;
+    text-align: center;
+    border-top: 1px solid #444;
+}
+
+.footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.social-links a {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.social-links img {
+    width: 25px;
+    height: 25px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.social-links img:hover {
+    opacity: 1;
+}
+
+/* Placeholder styles for images - replace with your actual images */
+header, #main-description .description-image, .feature-card img, footer .social-links img {
+    /* You'll need to replace these with your actual image paths */
+    /* Example: background-image: url('images/header_bg.jpg'); */
+    /* background-color: #555; Placeholder */
+}
+
+/* Basic button styling */
+.button {
+    /* Add more specific button styles here */
+}
+
+/* Responsive adjustments (basic) */
+@media (max-width: 768px) {
+    #main-description .container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    .footer .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .feature-card.specially {
+        height: 500px;
+    }
+}
+
+@media (max-width: 500px) {
+    .feature-card.specially {
+        height: 300px;
+    }
+}
+
+@media (max-height: 400px) {
+    header {
+        padding: 50px 0;
+    }
+}
+
+@media (min-width: 2000px) {
+    header {
+        padding: 400px 0;
+    }
+}
