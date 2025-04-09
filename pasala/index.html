@@ -94,7 +94,7 @@
                     <a class="cta" href="#" target="_blank" title="Get it on Google Play">
                         <img class="stores-badget" src="images/googleplay-badge-250.png" srcset="images/googleplay-badge-250.png 1x, images/googleplay-badge-500.png 2x, images/googleplay-badge-750.png 3x" alt="Google play Badge">
                     </a>
-                    <a class="cta" href="#" target="_blank" title="Download On the AppStore">
+                    <a class="cta" href="https://apps.apple.com/ar/app/pasala/id6743722902" target="_blank" title="Download On the AppStore">
                         <img class="stores-badget" src="images/appstore-badge-250.png" srcset="images/appstore-badge-250.png 1x, images/appstore-badge-500.png 2x, images/appstore-badge-750.png 3x" alt="App Store Badge">
                     </a>
                 </div>
@@ -200,5 +200,35 @@
             </p>
         </footer>
     </div>
+
+    <script>
+
+        var urlsDownload = {
+            "android": "#",
+            "ios": "https://apps.apple.com/ar/app/pasala/id6743722902"
+        }; 
+
+        // function to check if mac or android
+       
+        function isAndroid() {
+            return navigator.userAgent.toLowerCase().indexOf("android") > -1;
+        }
+        
+        // function to check if the user is windows device
+        function isWindows() {
+            return navigator.platform.toUpperCase().indexOf('WIN') >= 0;
+        }
+
+        if ( isAndroid() || isWindows() ) {
+            var ctas = document.querySelector('.main-cta');
+
+            if (ctas) {
+                ctas.setAttribute('href', urlsDownload.android);
+                ctas.setAttribute('target', '_blank');
+            }
+        }
+
+
+    </script>
 </body>
 </html>
