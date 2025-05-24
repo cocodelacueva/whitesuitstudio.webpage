@@ -201,34 +201,6 @@
         </footer>
     </div>
 
-    <script>
-
-        var urlsDownload = {
-            "android": "https://play.google.com/store/apps/details?id=com.whitesuit.pasala",
-            "ios": "https://apps.apple.com/ar/app/pasala/id6743722902"
-        }; 
-
-        // function to check if mac or android
-       
-        function isAndroid() {
-            return navigator.userAgent.toLowerCase().indexOf("android") > -1;
-        }
-        
-        // function to check if the user is windows device
-        function isWindows() {
-            return navigator.platform.toUpperCase().indexOf('WIN') >= 0;
-        }
-
-        if ( isAndroid() || isWindows() ) {
-            var ctas = document.querySelector('.main-cta');
-
-            if (ctas) {
-                ctas.setAttribute('href', urlsDownload.android);
-                ctas.setAttribute('target', '_blank');
-            }
-        }
-
-
-    </script>
+    <script src="js/scripts.js"></script>
 </body>
 </html>

@@ -172,17 +172,39 @@ footer {
     opacity: 1;
 }
 
-/* Placeholder styles for images - replace with your actual images */
-header, #main-description .description-image, .feature-card img, footer .social-links img {
-    /* You'll need to replace these with your actual image paths */
-    /* Example: background-image: url('images/header_bg.jpg'); */
-    /* background-color: #555; Placeholder */
-}
+.cookies-policy-message {
+    position: fixed;
+    z-index: 11;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    max-width: 510px;
+    padding: 1rem .5rem;
+    background-color: #111111bd;
+    color: #fff;
+    text-align: center;
+    display: flex;
+ }
 
-/* Basic button styling */
-.button {
-    /* Add more specific button styles here */
-}
+ .cookies-policy-message p {
+    margin-right: .5rem;
+ }
+
+ .cookies-policy-message a {
+    text-decoration: underline;
+    color: #fff;
+ }
+
+ .cookies-policy-message button {
+        background-color: transparent;
+        color: #fff;
+        border: 1px solid white;
+        padding: .5rem;
+        font-size: 1rem;
+        line-height: 1.2rem;
+        font-weight: 300;
+        cursor: pointer;
+ }
 
 /* Responsive adjustments (basic) */
 @media (max-width: 768px) {

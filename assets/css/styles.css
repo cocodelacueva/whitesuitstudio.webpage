@@ -167,8 +167,8 @@ reset
      padding-bottom: 1rem;
  }
 
- .cookies-policy-message {
-    position: absolute;
+.cookies-policy-message {
+    position: fixed;
     z-index: 11;
     bottom: 0;
     right: 0;

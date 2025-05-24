@@ -9,7 +9,7 @@ const cookiesPolicy = () => {
     const cookiesMessage = document.createElement('div');   
     cookiesMessage.className = 'cookies-policy-message';
     cookiesMessage.innerHTML = `
-        <p>We use cookies to improve your experience. By using our site, you accept our <a href="cookies-policy.html" target="_blank">Cookies Policy</a>.</p>
+        <p>We use cookies to improve your experience. By using our site, you accept our <a href="https://whitesuit.studio/cookies-policy.html" target="_blank">Cookies Policy</a>.</p>
         <button class="accept-cookies">ok</button>
     `;
     document.body.appendChild(cookiesMessage);

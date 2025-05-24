@@ -499,6 +499,40 @@ body.no-image {
     display: inline;
  }
 
+ .cookies-policy-message {
+    position: fixed;
+    z-index: 11;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    max-width: 510px;
+    padding: 1rem .5rem;
+    background-color: #111111bd;
+    color: #fff;
+    text-align: center;
+    display: flex;
+ }
+
+ .cookies-policy-message p {
+    margin-right: .5rem;
+ }
+
+ .cookies-policy-message a {
+    text-decoration: underline;
+    color: #fff;
+ }
+
+ .cookies-policy-message button {
+        background-color: transparent;
+        color: #fff;
+        border: 1px solid white;
+        padding: .5rem;
+        font-size: 1rem;
+        line-height: 1.2rem;
+        font-weight: 300;
+        cursor: pointer;
+ }
+
  @media (max-width: 768px) {
     .press-grid {
         display: block;
