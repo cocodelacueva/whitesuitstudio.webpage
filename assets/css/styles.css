@@ -1,0 +1,263 @@
+ /*
+reset
+*/
+ * {
+     margin: 0;
+     padding: 0;
+ }
+
+ strong,
+ em {
+     font-weight: 300;
+     font-style: normal;
+     font-family: "Raleway", serif;
+ }
+
+ body {
+     font-family: "Raleway", serif;
+     font-optical-sizing: auto;
+     font-weight: 300;
+     font-style: normal;
+     font-size: 16px;
+     line-height: 1.5;
+     font-size: 16px;
+     line-height: 22px;
+ }
+
+ .main-content {
+     color: #1f1f1f;
+     width: 100%;
+     height: auto;
+     overflow: hidden;
+     position: relative;
+     z-index: 3;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     top: 0;
+     left: 0;
+     background-color: rgba(255, 255, 255, 0.9);
+ }
+
+ .main-content h1 {
+     font-weight: 300;
+     letter-spacing: .5rem;
+     font-size: 2.5rem;
+     line-height: 2.8rem;
+     text-align: center;
+     padding: 0 1rem;
+     margin-top: .7rem;
+     margin-bottom: 1rem;
+ }
+
+ .main-content h2,
+ .main-content h3 {
+     font-weight: 300;
+     font-size: 1.5rem;
+     line-height: 2rem;
+     text-align: center;
+     padding: 0 1rem;
+     margin: 0.7rem auto;
+ }
+
+ .main-content p {
+     width: 95%;
+     max-width: 720px;
+     text-align: center;
+     padding: 0 1rem;
+     margin-bottom: .5rem;
+ }
+
+ .main-content ul {
+     margin: 0.5rem auto;
+ }
+
+ .main-image {
+     position: relative;
+     z-index: 1;
+     height: auto;
+     max-width: 500px;
+     width: 70%;
+     object-fit: cover;
+     display: block;
+     margin: 0 auto 1rem;
+     mask: radial-gradient(black 95%, transparent);
+ }
+
+ .new-game-section {
+     position: relative;
+     margin-top: 2rem;
+     width: 100%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+ .new-game-section h2 {
+     font-size: 1rem;
+     line-height: 1.1rem;
+     text-align: center;
+     padding: 0 1rem;
+ }
+
+ .new-game-section .link-game {
+     background-color: transparent;
+     padding: .5rem 2rem;
+     border-radius: 5px;
+     text-decoration: underline;
+     font-size: 1rem;
+     line-height: 1.1rem;
+ }
+
+ .new-game-section .link-game:hover {
+     opacity: .5;
+ }
+
+ .main-footer {
+     /* position: absolute;
+            bottom: 1rem;
+            left: 0; */
+     width: 100%;
+ }
+
+ .main-footer p {
+     text-align: left;
+ }
+
+ .links-section {
+     list-style: none;
+     padding: 0;
+     margin: 0;
+     width: 100%;
+     max-width: 720px;
+     text-align: center;
+ }
+
+ .links-section li {
+     margin: 1rem 0;
+ }
+
+ .links-section li a {
+     color: #1f1f1f;
+     text-decoration: none;
+     font-size: 1rem;
+     line-height: 1.2rem;
+     font-weight: 300;
+ }
+
+ .links-section li a:hover {
+     opacity: .8;
+     text-decoration: underline;
+ }
+
+ .links-section li.featured {
+     margin-top: 1.5rem;
+     margin-bottom: 1.5rem;
+ }
+
+ .links-section li.featured a {
+     font-size: 1.2rem;
+     line-height: 2rem;
+     color: #111;
+ }
+
+ .content-policy {
+     padding-top: 1rem;
+     padding-bottom: 1rem;
+ }
+
+ .cookies-policy-message {
+    position: absolute;
+    z-index: 11;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    max-width: 510px;
+    padding: 1rem .5rem;
+    background-color: #111111bd;
+    color: #fff;
+    text-align: center;
+    display: flex;
+ }
+
+ .cookies-policy-message p {
+    margin-right: .5rem;
+ }
+
+ .cookies-policy-message a {
+    text-decoration: underline;
+    color: #fff;
+ }
+
+ .cookies-policy-message button {
+        background-color: transparent;
+        color: #fff;
+        border: 1px solid white;
+        padding: .5rem;
+        font-size: 1rem;
+        line-height: 1.2rem;
+        font-weight: 300;
+        cursor: pointer;
+ }
+
+ @media (max-width: 960px) {
+     .main-content {
+         padding: 1rem 0 .5rem;
+     }
+
+     .main-content p {
+         width: 90%;
+     }
+
+     .main-footer {
+         font-size: .7rem;
+         line-height: .9rem;
+         padding: .2rem;
+         margin-top: 4rem;
+         position: relative;
+         bottom: auto;
+     }
+
+     .main-image {
+         width: 90%;
+     }
+
+     .main-content h1 {
+         letter-spacing: .5rem;
+         font-size: 1.5rem;
+         line-height: 2rem;
+         padding: 0 1rem;
+         margin-top: .7rem;
+         margin-bottom: 1rem;
+     }
+
+     .new-game-section {
+         flex-direction: column;
+     }
+ }
+
+ @media(min-height:768px) {
+     .main-content {
+         height: 100vh;
+         padding: 0;
+     }
+
+     .content-policy {
+         height: auto;
+         padding: 2rem .5rem 1rem;
+     }
+
+     .main-footer {
+         margin-top: 0;
+         position: absolute;
+         bottom: 1rem;
+         left: 0;
+         width: 100%;
+     }
+
+     .content-policy .main-footer {
+         position: static;
+         margin-top: 2rem;
+     }
+ }
