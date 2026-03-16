@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 12-Week Tailored MVP | White Suit Studio</title>
+    <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+    <!-- Meta Description  -->
+    <meta name="description" content="Es un proceso de 12 semanas diseñado para transformar una visión de negocio en un producto tecnológico escalable y validado. No es una agencia que solo 'toma pedidos'; el rol es de Technical Founder & MVP Builder para asegurar que cada decisión técnica ahorre tiempo y capital. Y, sobre todo, prepara el terreno para continuar escalando sin problemas.">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="The 12-Week Tailored MVP | White Suit Studio">
+    <meta property="og:description" content="Es un proceso de 12 semanas diseñado para transformar una visión de negocio en un producto tecnológico escalable y validado. No es una agencia que solo 'toma pedidos'; el rol es de Technical Founder & MVP Builder para asegurar que cada decisión técnica ahorre tiempo y capital. Y, sobre todo, prepara el terreno para continuar escalando sin problemas.">
+    <meta property="og:image" content="https://cto.whitesuit.studio/assets/images/screenshot.jpg">
+    <meta property="og:url" content="https://cto.whitesuit.studio/index.html">
+    <meta property="og:type" content="website">
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The 12-Week Tailored MVP | White Suit Studio">
+    <meta name="twitter:description" content="Es un proceso de 12 semanas diseñado para transformar una visión de negocio en un producto tecnológico escalable y validado. No es una agencia que solo 'toma pedidos'; el rol es de Technical Founder & MVP Builder para asegurar que cada decisión técnica ahorre tiempo y capital. Y, sobre todo, prepara el terreno para continuar escalando sin problemas.">
+    <meta name="twitter:image" content="https://cto.whitesuit.studio/assets/images/screenshot.jpg"> 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q6HSPWKRKY"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q6HSPWKRKY');
+
+    // Función para trackear clics en botones
+    function trackButtonClick(buttonName) {
+        // 1. Google Analytics
+        gtag('event', 'click_cta', {
+        'button_name': buttonName,
+        'event_category': 'conversion',
+        'event_label': buttonName
+        });
+        // 2. LinkedIn (Evento de Conversión)
+        // if (window.lintrk) {
+        //     window.lintrk('track', { conversion_id: buttonName }); 
+        // }
+        // 3. Meta (Evento de Lead o Contacto)
+        if (window.fbq) {
+            fbq('track', 'Contact', { content_name: buttonName });
+        }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Raleway", serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
+            font-style: normal;
+            font-size: 16px;
+            line-height: 1.5;
+            font-size: 16px;
+            line-height: 22px;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+    <nav class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
+        <div class="font-light text-xl tracking-tighter uppercase">White Suit Studio</div>
+        <div class="flex gap-6 items-center">
+            <a href="https://public.whitesuit.studio/12-week-tailored-mvp-deck.pd" target="_blank" class="text-sm font-medium text-gray-500 hover:text-black transition sm:block hidden" onclick="trackButtonClick('nav_descargar_deck')">Descargar Deck PDF</a>
+            <a href="https://api.whatsapp.com/send/?text=%C2%A1Hola!&phone=+5491168908250" target="_blank" class="text-sm font-bold border-2 border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition" onclick="trackButtonClick('nav_contacto')">Contacto</a>
+        </div>
+    </nav>
+
+    <header class="relative  px-8 py-24 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 overflow-hidden">
+        <div class="absolute inset-0 z-0 hero-image opacity-20 lg:opacity-100 lg:w-1/2 lg:left-1/2"></div>
+        
+        <div class="absolute inset-0 z-10 bg-white/80 lg:bg-transparent lg:bg-gradient-to-r lg:from-white lg:via-white/90 lg:to-transparent"></div>
+        <div class="relative z-20 max-w-7xl mx-auto w-full lg:w-2/3">
+            <div class="max-w-2xl">
+                <hgroup>
+                    <h3 class="text-sm font-bold tracking-widest uppercase text-gray-400 mb-8 block">Fractional CTO & MVP Builder</h3>
+                    <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
+                        The 12-Week <br><span class="text-gray-400">Tailored MVP.</span>
+                    </h1>
+                    <h2 class="text-3xl lg:text-3xl font-light tracking-tight mb-12">
+                        Tu Technical Founder por 12 semanas.
+                    </h2>
+                </hgroup>
+                <p class="text-xl lg:text-2xl text-gray-600 mb-24 leading-relaxed">
+                    Proceso de 12 semanas diseñado para transformar una visión de negocio en un producto tecnológico escalable y validado. Technical Founder para asegurar que cada decisión técnica ahorre tiempo, capital y prepare el terreno para continuar escalando sin problemas.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 mb-12">
+                    <a href="https://calendar.app.google/xp7p8A4cpxj7DfU26" target="_blank" class="bg-black text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg transition" onclick="trackButtonClick('cta_header_agendar')">
+                        Agendar llamada</a>
+                <a href="https://public.whitesuit.studio/12-week-tailored-mvp-deck.pd" target="_blank" class="bg-white border border-gray-200 px-8 py-4 rounded-full font-semibold hover:bg-gray-50 transition flex items-center justify-center gap-2" onclick="trackButtonClick('cta_header_ver_deck')">
+                    Ver el Deck Completo 
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="relative z-20 max-w-7xl mx-auto w-full lg:w-1/3 lg:block hidden">
+            <div class="bg-gray-200 aspect-square w-full rounded-2xl flex items-center justify-center text-gray-400 italic text-sm">
+                <img src="assets/images/white-suit-1200.jpeg" alt="Coco - White Suit Studio" class="w-full h-full object-cover rounded-2xl">
+            </div>
+        </div>
+
+    </header>
+
+    <section class="mt-12 mb-12 lg:text-3xl px-8 py-20 max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl font-semibold mb-6 italic text-gray-800">"Un Founder no necesita un CTO full-time al principio; necesita los cimientos correctos."</h2>
+        <p class="text-lg lg:text-2xl text-gray-500 leading-relaxed ">
+            Muchos proyectos mueren por exceso de ingeniería o falta de dirección estratégica. 
+            Mi rol es actuar como el escudo técnico de tu startup, asegurando que cada dólar invertido 
+            en tecnología valide una hipótesis real de negocio.
+        </p>
+    </section>
+
+    <section class="px-8 py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="space-y-4">
+                <div class="w-12 h-12 bg-black text-white flex items-center justify-center rounded-lg mb-6">01</div>
+                <h3 class="text-xl lg:text-2xl font-bold">Estrategia sobre Horas</h3>
+                <p class="text-gray-600">No vendo tiempo de desarrollo. Aplico un proceso cerrado y probado para lanzar tu producto al mercado con eficiencia.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="w-12 h-12 bg-black text-white flex items-center justify-center rounded-lg mb-6">02</div>
+                <h3 class="text-xl lg:text-2xl font-bold">Ownership Técnico</h3>
+                <p class="text-gray-600">Actúo como tu socio tecnológico, protegiendo tus intereses y seleccionando el talento adecuado para cada etapa.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="w-12 h-12 bg-black text-white flex items-center justify-center rounded-lg mb-6">03</div>
+                <h3 class="text-xl lg:text-2xl font-bold">Eficiencia de Stack</h3>
+                <p class="text-gray-600">Selecciono la tecnología que reduce costos operativos y acelera el time-to-market hasta en 3 semanas.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="proceso" class="px-8 py-24 max-w-5xl mx-auto">
+        <h2 class="text-4xl font-bold mb-16 text-center">Roadmap</h2>
+        
+        <div class="space-y-16">
+            <div class="flex flex-col md:flex-row gap-8 items-start">
+                <div class="md:w-1/3 font-bold text-gray-400">1-2 SEMANAS</div>
+                <div class="md:w-2/3">
+                    <h3 class="text-2xl font-bold mb-3">Fase 1: Discovery & Architecture</h3>
+                    <p class="text-gray-600">Definir qué se construye y, sobre todo, qué no se construye para validar la hipótesis de negocio.
+                        <strong class="font-semibold">Entregable:</strong> Documento de Arquitectura, plan de acción para continuar, presupuesto final del programa.
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8 items-start">
+                <div class="md:w-1/3 font-bold text-gray-400">1-2 SEMANAS</div>
+                <div class="md:w-2/3">
+                    <h3 class="text-2xl font-bold mb-3">Fase 2: Armado de Equipo</h3>
+                    <p class="text-gray-600">Armar el equipo de ejecución con talento probado de tu red de confianza.
+                        <strong class="font-semibold">Entregable:</strong> Equipo asignado, backlog listo y planificación por sprint. 
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8 items-start">
+                <div class="md:w-1/3 font-bold text-gray-400">8-16 SEMANAS</div>
+                <div class="md:w-2/3">
+                    <h3 class="text-2xl font-bold mb-3">Fase 3: Desarrollo & Supervisión</h3>
+                    <p class="text-gray-600">Asegurar que el ritmo de desarrollo sea constante y que el código sea escalable pero funcional.
+                        <strong class="font-semibold">Entregable:</strong> PMVP funcional en entorno de staging/producción.
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8 items-start">
+                <div class="md:w-1/3 font-bold text-gray-400">2-4 SEMANAS</div>
+                <div class="md:w-2/3">
+                    <h3 class="text-2xl font-bold mb-3">Fase 4: Handover y Salida</h3>
+                    <p class="text-gray-600">Que el Founder recupere la independencia técnica sin "deuda" de conocimiento.
+                        <strong class="font-semibold">Entregable:</strong> Repositorio limpio, documentación y cierre del proyecto.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <section id="contacto" class="px-8 py-24 bg-gray-50 border-y border-gray-100">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-6">¿Hablamos de tu próximo producto?</h2>
+            <p class="text-lg text-gray-600 mb-10">
+                Si tenés una visión clara pero necesitás el GPS técnico para ejecutarla sin errores, miremos juntos el roadmap.
+            </p>
+            <div class="space-y-4">
+                <a href="https://calendar.app.google/xp7p8A4cpxj7DfU26" target="_blank" class="inline-block bg-black text-white px-10 py-4 rounded-full font-bold hover:shadow-xl transition" onclick="trackButtonClick('cta_agendar')">
+                    Agendar Llamada
+                </a>
+                <div class="block">
+                    <a href="https://public.whitesuit.studio/12-week-tailored-mvp-deck.pd" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition" onclick="trackButtonClick('cta_ver_deck')">
+                        O descargá el Deck PDF con el detalle de costos y entregables
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="px-8 py-24 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
+        <div class="md:w-1/2">
+            <div class="bg-gray-200 aspect-square w-full rounded-2xl flex items-center justify-center text-gray-400 italic text-sm">
+                <img src="assets/images/perfil.jpeg" alt="Coco - Foto Peril" class="w-full h-full object-cover rounded-2xl">
+            </div>
+        </div>
+        <div class="md:w-1/2">
+            <h2 class="text-3xl font-bold mb-6 underline decoration-1 underline-offset-8">Fractional CTO</h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                Programador por 12 años, Director de Cine por vocación. Como ex-Director de Tecnología, ayudo a startups a 
+                navegar la incertidumbre técnica y lanzar productos que realmente importan.
+            </p>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                Cuando fui Director de Tecnología (CTO Role), lideré el escalamiento de una organización técnica que creció de 2 a 15 profesionales. Mi mayor hito fue la transición de liderar desarrolladores a liderar líderes, estableciendo una estructura sólida de grupos de trabajo bajo metodologías Agile (Scrum/Kanban) y modelos híbridos, optimizando la entrega según la complejidad de cada desafío.
+            </p>
+            <p class="mt-12 text-lg text-gray-600 leading-relaxed">
+                <a href="https://www.linkedin.com/in/cocodelacueva/" target="_blank" onclick="trackButtonClick('link_perfil_linkedin')" class="hover:text-black">LinkedIn</a>
+            </p>
+        </div>
+    </section>
+
+    <footer class="border-t border-gray-100 py-12 px-8 text-center text-gray-400 text-sm">
+        <p class="mb-4 font-light text-gray-900 uppercase tracking-tighter">White Suit Studio</p>
+        <p>Buenos Aires, Argentina • 2026</p>
+        <div class="mt-6 flex justify-center gap-6">
+            <a href="https://api.whatsapp.com/send/?text=%C2%A1Hola!&phone=+5491168908250" target="_blank" class="hover:text-black" onclick="trackButtonClick('link_footer_whatsapp')">WhatsApp</a>
+            <a href="https://api.whatsapp.com/send/?text=%C2%A1Hola!&phone=+5491168908250" target="_blank" onclick="trackButtonClick('link_footer_agendar_llamada')">Agendar llamada</a>
+        </div>
+    </footer>
+
+
+<!-- LinkedIn Insight Tag -->
+    <script type="text/javascript">
+        _linkedin_partner_id = "9746337";
+        window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+        window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+        </script><script type="text/javascript">
+        (function(l) {
+        if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+        window.lintrk.q=[]}
+        var s = document.getElementsByTagName("script")[0];
+        var b = document.createElement("script");
+        b.type = "text/javascript";b.async = true;
+        b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+        s.parentNode.insertBefore(b, s);})(window.lintrk);
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=9746337&fmt=gif" />
+    </noscript>
+
+<!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1038948448867510');
+        fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none;" 
+        src="https://www.facebook.com/tr?id=1038948448867510&ev=PageView&noscript=1"/>
+    </noscript>
+
+</body>
+</html>
