@@ -61,6 +61,39 @@
             font-size: 16px;
             line-height: 22px;
         }
+        .cookies-policy-message {
+            position: fixed;
+            z-index: 11;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            max-width: 510px;
+            padding: 1rem .5rem;
+            background-color: #111111bd;
+            color: #fff;
+            text-align: center;
+            display: flex;
+        }
+
+        .cookies-policy-message p {
+            margin-right: .5rem;
+        }
+
+        .cookies-policy-message a {
+            text-decoration: underline;
+            color: #fff;
+        }
+
+        .cookies-policy-message button {
+                background-color: transparent;
+                color: #fff;
+                border: 1px solid white;
+                padding: .5rem;
+                font-size: 1rem;
+                line-height: 1.2rem;
+                font-weight: 300;
+                cursor: pointer;
+        }
     </style>
 </head>
 <body class="bg-white text-gray-900 antialiased">
@@ -270,5 +303,36 @@
         src="https://www.facebook.com/tr?id=1038948448867510&ev=PageView&noscript=1"/>
     </noscript>
 
+    <script>
+        const cookiesPolicy = () => {
+
+            // verifico localStorage para ver si acepto cookies
+            if (localStorage.getItem('cookiesAccepted')) {
+                return;
+            }
+
+            // Si no, muestro el mensaje de cookies
+            const cookiesMessage = document.createElement('div');   
+            cookiesMessage.className = 'cookies-policy-message';
+            cookiesMessage.innerHTML = `
+                <p>We use cookies to improve your experience. By using our site, you accept our <a href="https://public.whitesuit.studio/wss/cookies-policy.html" target="_blank">Cookies Policy</a>.</p>
+                <button class="accept-cookies">ok</button>
+            `;
+            document.body.appendChild(cookiesMessage);
+            // Agrego evento al botón de aceptar cookies
+            const acceptButton = cookiesMessage.querySelector('.accept-cookies');
+            if (acceptButton) {
+                acceptButton.addEventListener('click', function () {
+                    localStorage.setItem('cookiesAccepted', 'true');
+                    cookiesMessage.remove();
+                });
+            }
+
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            cookiesPolicy()
+        });
+    </script>
 </body>
 </html>
