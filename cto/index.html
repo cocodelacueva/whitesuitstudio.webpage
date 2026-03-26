@@ -21,29 +21,34 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q6HSPWKRKY"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    gtag('config', 'G-Q6HSPWKRKY');
+        gtag('config', 'G-Q6HSPWKRKY');
 
-    // Función para trackear clics en botones
-    function trackButtonClick(buttonName) {
-        // 1. Google Analytics
-        gtag('event', 'click_cta', {
-        'button_name': buttonName,
-        'event_category': 'conversion',
-        'event_label': buttonName
-        });
-        // 2. LinkedIn (Evento de Conversión)
-        // if (window.lintrk) {
-        //     window.lintrk('track', { conversion_id: buttonName }); 
-        // }
-        // 3. Meta (Evento de Lead o Contacto)
-        if (window.fbq) {
-            fbq('track', 'Contact', { content_name: buttonName });
+        // Función para trackear clics en botones
+        function trackButtonClick(buttonName) {
+            // 1. Google Analytics
+            gtag('event', 'click_cta', {
+            'button_name': buttonName,
+            'event_category': 'conversion',
+            'event_label': buttonName
+            });
+            gtag('event', 'conversion', {
+                'send_to': 'AW-16938222773/DeF4CKmsvY8cELWJ44w_',
+                'value': 1.0,
+                'currency': 'USD'
+            });
+            // 2. LinkedIn (Evento de Conversión)
+            // if (window.lintrk) {
+            //     window.lintrk('track', { conversion_id: buttonName }); 
+            // }
+            // 3. Meta (Evento de Lead o Contacto)
+            if (window.fbq) {
+                fbq('track', 'Contact', { content_name: buttonName });
+            }
         }
-    }
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -98,11 +103,11 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16938222773"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    gtag('config', 'AW-16938222773');
+        gtag('config', 'AW-16938222773');
     </script>
 </head>
 <body class="bg-white text-gray-900 antialiased">
