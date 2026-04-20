@@ -236,7 +236,7 @@
             <p class="text-lg text-gray-600 mb-10">
                 Si tenés una visión clara pero necesitás el GPS técnico para ejecutarla sin errores, miremos juntos el roadmap.
             </p>
-            <div class="space-y-4">
+            <div class="space-y-4 mb-16">
                 <a href="https://calendar.app.google/xp7p8A4cpxj7DfU26" target="_blank" class="inline-block bg-black text-white px-10 py-4 rounded-full font-bold hover:shadow-xl transition" onclick="trackButtonClick('cta_agendar')">
                     Agendar Llamada
                 </a>
@@ -244,6 +244,43 @@
                     <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition" onclick="trackButtonClick('cta_ver_deck')">
                         O descargá el Deck PDF con el detalle de costos y entregables
                     </a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-12">
+                <h3 class="text-2xl font-bold mb-3">O dejame tu contacto</h3>
+                <p class="text-gray-500 mb-8">Te respondo en menos de 24 horas.</p>
+                <form id="contact-form" class="max-w-lg mx-auto text-left space-y-4" onsubmit="return handleFormSubmit(event)">
+                    <div>
+                        <label for="form-name" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                        <input type="text" id="form-name" name="name" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition"
+                            placeholder="Tu nombre">
+                    </div>
+                    <div>
+                        <label for="form-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="form-email" name="email" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition"
+                            placeholder="tu@email.com">
+                    </div>
+                    <div>
+                        <label for="form-message" class="block text-sm font-medium text-gray-700 mb-1">Mensaje</label>
+                        <textarea id="form-message" name="message" rows="4" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition resize-none"
+                            placeholder="Contame brevemente sobre tu proyecto o idea..."></textarea>
+                    </div>
+                    <button type="submit" id="form-submit-btn"
+                        class="w-full bg-black text-white py-4 rounded-full font-semibold hover:shadow-lg transition">
+                        Enviar mensaje
+                    </button>
+                </form>
+                <div id="form-success" class="hidden max-w-lg mx-auto py-8">
+                    <div class="text-2xl mb-2">&#10003;</div>
+                    <p class="text-lg font-semibold text-gray-800">Mensaje enviado</p>
+                    <p class="text-gray-500 mt-2">Te respondo pronto. Gracias por escribirme.</p>
+                </div>
+                <div id="form-error" class="hidden max-w-lg mx-auto py-4">
+                    <p class="text-red-600">Hubo un error al enviar. Probá de nuevo o escribime por WhatsApp.</p>
                 </div>
             </div>
         </div>
@@ -316,6 +353,78 @@
         <img height="1" width="1" style="display:none;" 
         src="https://www.facebook.com/tr?id=1038948448867510&ev=PageView&noscript=1"/>
     </noscript>
+
+    <script>
+        // =============================================
+        // FORMULARIO DE CONTACTO → Google Sheets
+        // =============================================
+        // INSTRUCCIONES DE CONFIGURACIÓN:
+        // 1. Creá una Google Sheet nueva
+        // 2. Andá a Extensiones → Apps Script
+        // 3. Pegá el código que está en el archivo google-apps-script.js
+        // 4. Hacé Deploy → New deployment → Web app → Anyone can access
+        // 5. Copiá la URL y reemplazá GOOGLE_SCRIPT_URL abajo
+        // =============================================
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzWEQlBYAQyWP4IXKhHSZVC47ABJVyi-_jez1elzA3TpS462O7Jm31wZ3lN4aM9pXdq/exec';
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            const form = document.getElementById('contact-form');
+            const submitBtn = document.getElementById('form-submit-btn');
+            const successMsg = document.getElementById('form-success');
+            const errorMsg = document.getElementById('form-error');
+
+            const name = document.getElementById('form-name').value.trim();
+            const email = document.getElementById('form-email').value.trim();
+            const message = document.getElementById('form-message').value.trim();
+
+            // Deshabilitar botón mientras envía
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
+            errorMsg.classList.add('hidden');
+
+            // Track en GA4
+            trackButtonClick('form_contacto_enviar');
+
+            // Evento específico de formulario para GA4
+            gtag('event', 'generate_lead', {
+                'event_category': 'form',
+                'event_label': 'contact_form'
+            });
+
+            // Meta Pixel - Lead event
+            if (window.fbq) {
+                fbq('track', 'Lead', { content_name: 'contact_form' });
+            }
+
+            // Enviar a Google Sheets
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    message: message,
+                    timestamp: new Date().toISOString(),
+                    source: window.location.href
+                })
+            })
+            .then(() => {
+                // Con mode: 'no-cors' siempre llega acá
+                form.classList.add('hidden');
+                successMsg.classList.remove('hidden');
+            })
+            .catch(() => {
+                errorMsg.classList.remove('hidden');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Enviar mensaje';
+            });
+
+            return false;
+        }
+    </script>
 
     <script>
         const cookiesPolicy = () => {
