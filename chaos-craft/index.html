@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chaos Craft — Roblox Game by White Suit Studio</title>
+<meta name="description" content="Chaos Craft: una experiencia social de crafting de alto riesgo para Roblox. Producido por White Suit Studio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0014;
+  --bg-2:#11001F;
+  --bg-3:#1B0030;
+  --ink:#F6F3FF;
+  --ink-soft:#B9AED4;
+  --magenta:#FF2E63;
+  --cyan:#00F0FF;
+  --yellow:#FFE600;
+  --lime:#A3FF12;
+  --line:rgba(255,255,255,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Space Grotesk',system-ui,-apple-system,sans-serif;
+  font-size:17px;
+  line-height:1.55;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode:overlay;opacity:.6;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.container{max-width:1280px;margin:0 auto;padding:0 28px;position:relative;z-index:2}
+h1,h2,h3,h4{font-family:'Archivo Black',Impact,sans-serif;line-height:.95;letter-spacing:-.01em;text-transform:uppercase}
+.mono{font-family:'Space Mono',ui-monospace,monospace}
+
+/* ==== Lang switcher ==== */
+.lang{
+  position:fixed;top:18px;right:18px;z-index:50;
+  display:flex;gap:6px;background:rgba(10,0,20,.7);
+  backdrop-filter:blur(10px);border:1px solid var(--line);
+  border-radius:999px;padding:6px;font-family:'Space Mono',monospace;font-size:12px;
+}
+.lang a{
+  padding:6px 12px;border-radius:999px;color:var(--ink-soft);
+  letter-spacing:.05em;transition:all .2s;
+}
+.lang a:hover{color:var(--ink)}
+.lang a.active{background:var(--magenta);color:#fff}
+
+/* ==== Section base ==== */
+section{position:relative;padding:120px 0;overflow:hidden}
+.eyebrow{
+  font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.25em;
+  text-transform:uppercase;color:var(--ink-soft);
+  display:inline-flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";width:36px;height:1px;background:var(--magenta);display:inline-block}
+.section-num{
+  position:absolute;top:32px;right:32px;
+  font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);
+  letter-spacing:.2em;
+}
+
+/* ==== HERO ==== */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 80px;position:relative}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(60% 50% at 80% 20%,rgba(255,46,99,.25),transparent 60%),
+    radial-gradient(50% 60% at 10% 80%,rgba(0,240,255,.18),transparent 60%);
+  z-index:0;
+}
+.hero .container{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
+.hero-title{
+  font-size:clamp(58px,9vw,140px);
+  background:linear-gradient(180deg,#fff 0%,#fff 60%,var(--magenta) 60%,var(--cyan) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  margin-bottom:20px;
+}
+.hero-title .glitch{display:block;color:var(--magenta);-webkit-text-fill-color:var(--magenta)}
+.hero-sub{font-size:clamp(18px,1.6vw,22px);color:var(--ink-soft);max-width:520px;margin:24px 0 28px}
+.hero-credit{
+  display:inline-block;background:var(--yellow);color:#000;
+  font-family:'Archivo Black',sans-serif;text-transform:uppercase;
+  padding:10px 18px;font-size:13px;letter-spacing:.05em;
+  transform:rotate(-2deg);box-shadow:6px 6px 0 var(--magenta);
+}
+.hero-art{
+  position:relative;aspect-ratio:4/5;border-radius:8px;overflow:hidden;
+  border:3px solid var(--ink);
+  box-shadow:14px 14px 0 var(--magenta), 28px 28px 0 var(--cyan);
+  background:#000;
+}
+.hero-art img{width:100%;height:100%;object-fit:cover;filter:contrast(1.05) saturate(1.1)}
+.hero-art::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(10,0,20,.6) 100%);
+}
+.hero-tag{
+  position:absolute;left:24px;bottom:18px;z-index:2;
+  font-family:'Space Mono',monospace;font-size:11px;color:var(--cyan);
+  letter-spacing:.2em;text-transform:uppercase;
+}
+.hero-disclaimer{
+  margin-top:64px;font-family:'Space Mono',monospace;font-size:11px;
+  color:var(--ink-soft);max-width:920px;line-height:1.6;
+  border-left:2px solid var(--magenta);padding-left:14px;
+}
+
+/* ==== IDEA GENERAL ==== */
+.idea h2{font-size:clamp(44px,6vw,88px);margin-top:14px}
+.idea h2 .accent{color:var(--cyan)}
+.idea-pitch{
+  margin-top:48px;max-width:880px;
+  font-size:clamp(19px,1.5vw,24px);line-height:1.55;color:var(--ink-soft);
+  border-left:3px solid var(--magenta);padding-left:28px;
+}
+.idea-pitch p + p{margin-top:18px}
+.idea-pitch strong{color:var(--ink);font-weight:700}
+
+/* ==== CONCEPT ==== */
+.concept{background:var(--bg-2)}
+.concept .container{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.concept h2{font-size:clamp(40px,5vw,76px)}
+.concept h2 em{font-style:normal;color:var(--magenta)}
+.concept-lead{margin-top:24px;font-size:19px;color:var(--ink-soft);max-width:520px}
+.manifesto{display:flex;flex-direction:column;gap:18px}
+.manifesto-card{
+  background:var(--bg-3);border:1px solid var(--line);
+  padding:24px 26px;border-left:4px solid var(--cyan);
+  transition:transform .25s ease,border-color .25s ease;
+}
+.manifesto-card:nth-child(2){border-left-color:var(--magenta)}
+.manifesto-card:nth-child(3){border-left-color:var(--yellow)}
+.manifesto-card:nth-child(4){border-left-color:var(--lime)}
+.manifesto-card:hover{transform:translateX(6px)}
+.manifesto-card .num{
+  font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);letter-spacing:.2em;
+}
+.manifesto-card p{margin-top:6px;font-size:18px;font-weight:500}
+
+/* ==== LOOP ==== */
+.loop h2{font-size:clamp(40px,5vw,76px);margin-bottom:14px}
+.loop .eyebrow{margin-bottom:18px}
+.loop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:56px}
+.loop-card{
+  position:relative;background:var(--bg-2);border:1px solid var(--line);
+  padding:36px 30px 32px;overflow:hidden;
+  transition:transform .3s ease;
+}
+.loop-card:hover{transform:translateY(-6px)}
+.loop-card::before{
+  content:"";position:absolute;left:0;top:0;height:6px;width:100%;
+  background:var(--magenta);
+}
+.loop-card:nth-child(2)::before{background:var(--cyan)}
+.loop-card:nth-child(3)::before{background:var(--yellow)}
+.loop-card:nth-child(4)::before{background:var(--lime)}
+.loop-num{
+  font-family:'Archivo Black',sans-serif;font-size:64px;color:transparent;
+  -webkit-text-stroke:1.5px var(--ink-soft);
+  line-height:1;
+}
+.loop-card h3{font-size:32px;margin:18px 0 10px;color:var(--magenta)}
+.loop-card:nth-child(2) h3{color:var(--cyan)}
+.loop-card:nth-child(3) h3{color:var(--yellow)}
+.loop-card:nth-child(4) h3{color:var(--lime)}
+.loop-card p{color:var(--ink-soft);font-size:17px}
+
+/* ==== MONETIZATION ==== */
+.money{background:var(--bg-2)}
+.money h2{font-size:clamp(40px,5vw,76px);margin-bottom:14px}
+.money-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:56px}
+.money-card{
+  background:var(--bg);border:1px solid var(--line);padding:24px 20px;
+  display:flex;flex-direction:column;gap:14px;min-height:240px;
+  transition:all .25s ease;
+}
+.money-card:hover{border-color:var(--magenta);transform:translateY(-4px)}
+.money-icon{
+  width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+  background:var(--magenta);color:#000;font-family:'Archivo Black',sans-serif;font-size:20px;
+}
+.money-card:nth-child(2) .money-icon{background:var(--cyan)}
+.money-card:nth-child(3) .money-icon{background:var(--yellow)}
+.money-card:nth-child(4) .money-icon{background:var(--lime)}
+.money-card:nth-child(5) .money-icon{background:#fff}
+.money-card h4{font-family:'Archivo Black',sans-serif;font-size:16px;text-transform:uppercase;letter-spacing:.02em}
+.money-card p{font-size:14px;color:var(--ink-soft);line-height:1.5}
+
+/* ==== ABOUT QUOTE ==== */
+.quote{padding:160px 0;text-align:center;position:relative}
+.quote::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(50% 60% at 50% 50%,rgba(255,46,99,.15),transparent 70%);
+}
+.quote .eyebrow{justify-content:center;display:inline-flex;margin-bottom:30px}
+.quote h2{font-size:clamp(46px,8vw,120px);max-width:1100px;margin:0 auto;line-height:1}
+.quote h2 span{color:var(--magenta)}
+
+/* ==== STUDIO ==== */
+.studio{background:var(--bg-2)}
+.studio .container{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
+.studio h2{font-size:clamp(36px,4vw,60px);margin-bottom:18px}
+.studio .tag{color:var(--cyan);font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:24px}
+.studio p{color:var(--ink-soft);font-size:17px;max-width:520px}
+.studio-meta{margin-top:30px;font-family:'Space Mono',monospace;font-size:13px;color:var(--ink)}
+.studio-meta a{color:var(--magenta)}
+.studio-art{
+  aspect-ratio:4/5;overflow:hidden;border:3px solid var(--ink);
+  box-shadow:-12px 12px 0 var(--cyan);background:#fff;
+}
+.studio-art img{width:100%;height:100%;object-fit:cover;filter:grayscale(.1) contrast(1.05)}
+
+/* ==== FOUNDER ==== */
+.founder .container{display:grid;grid-template-columns:.4fr .6fr;gap:60px;align-items:start}
+.founder-photo{
+  aspect-ratio:1/1;overflow:hidden;border:3px solid var(--ink);
+  box-shadow:10px 10px 0 var(--magenta);
+}
+.founder-photo img{width:100%;height:100%;object-fit:cover}
+.founder-name{font-size:clamp(40px,5vw,72px);margin-bottom:6px}
+.founder-role{font-family:'Space Mono',monospace;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:24px;font-size:13px}
+.founder-bio p{color:var(--ink-soft);margin-bottom:14px;font-size:16px}
+.founder-bio p.kicker{
+  color:var(--magenta);font-family:'Archivo Black',sans-serif;
+  text-transform:uppercase;font-size:18px;letter-spacing:.02em;margin-top:18px;
+}
+.founder-link{
+  display:inline-block;margin-top:18px;font-family:'Space Mono',monospace;
+  font-size:13px;color:var(--cyan);border-bottom:1px solid var(--cyan);
+  padding-bottom:2px;
+}
+
+/* ==== WORK HEADER ==== */
+.work-header{padding:80px 0 0}
+.work-header h2{
+  font-size:clamp(64px,13vw,210px);line-height:.85;
+  background:linear-gradient(90deg,var(--magenta),var(--cyan),var(--yellow));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-fill-color:transparent;
+  word-break:break-word;
+}
+
+/* ==== GAME ==== */
+.game{padding:90px 0}
+.game .container{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.game.alt .container{direction:rtl}
+.game.alt .container > *{direction:ltr}
+.game .meta{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:18px}
+.game h3{font-size:clamp(46px,7vw,96px);color:var(--yellow);margin-bottom:14px}
+.game .alt-color{color:var(--cyan)}
+.game .tag{font-size:20px;font-weight:700;color:var(--ink);margin-bottom:18px}
+.game p.body{color:var(--ink-soft);font-size:16px;max-width:480px}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:end}
+.shots img{
+  border:2px solid var(--ink);box-shadow:6px 6px 0 var(--magenta);
+  border-radius:14px;background:#000;aspect-ratio:9/19;object-fit:cover;
+}
+.shots img:nth-child(2){box-shadow:6px 6px 0 var(--cyan);transform:translateY(-22px)}
+.shots img:nth-child(3){box-shadow:6px 6px 0 var(--yellow)}
+
+/* ==== THANKS ==== */
+.thanks{padding:140px 0;background:var(--bg-2);text-align:center;position:relative}
+.thanks::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(60% 60% at 50% 50%,rgba(0,240,255,.12),transparent 70%);
+}
+.thanks h2{font-size:clamp(80px,16vw,220px);line-height:.85;margin-bottom:40px}
+.thanks h2 span{color:var(--magenta)}
+.thanks-grid{display:grid;grid-template-columns:1fr 200px;gap:60px;max-width:760px;margin:0 auto;align-items:center;text-align:left}
+.thanks-info{display:flex;flex-direction:column;gap:14px;font-family:'Space Mono',monospace;font-size:14px}
+.thanks-info a{color:var(--cyan);border-bottom:1px solid transparent;padding-bottom:2px;transition:.2s}
+.thanks-info a:hover{border-color:var(--cyan)}
+.thanks-info .label{color:var(--ink-soft);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.qr{background:#fff;padding:14px;border:3px solid var(--ink);box-shadow:8px 8px 0 var(--magenta)}
+.qr img{width:100%;height:auto;display:block}
+
+/* ==== FOOTER ==== */
+footer{padding:36px 0;border-top:1px solid var(--line);text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:var(--ink-soft);letter-spacing:.1em;text-transform:uppercase}
+
+/* ==== Responsive ==== */
+@media (max-width:1080px){
+  .money-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:880px){
+  section{padding:90px 0}
+  .container{padding:0 22px}
+  .hero{padding:120px 0 60px}
+  .hero .container,.concept .container,.studio .container,.founder .container,.game .container,.game.alt .container{grid-template-columns:1fr;gap:40px;direction:ltr}
+  .loop-grid{grid-template-columns:1fr}
+  .money-grid{grid-template-columns:1fr}
+  .thanks-grid{grid-template-columns:1fr;text-align:center;justify-items:center}
+  .thanks-info{align-items:center}
+  .qr{max-width:200px}
+  .hero-art{box-shadow:8px 8px 0 var(--magenta), 16px 16px 0 var(--cyan)}
+  .section-num{top:18px;right:22px}
+  .lang{top:14px;right:14px}
+  .work-header h2{font-size:clamp(48px,11vw,90px);letter-spacing:-.02em}
+  .thanks h2{font-size:clamp(64px,14vw,120px);letter-spacing:-.02em}
+  .idea-row{grid-template-columns:1fr;gap:8px;padding:28px 0}
+  .idea-row .num{font-size:54px}
+}
+
+.cookies-policy-message {
+    position: fixed;
+    z-index: 11;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    max-width: 510px;
+    padding: 1rem .5rem;
+    background-color: #111111bd;
+    color: #fff;
+    text-align: center;
+    display: flex;
+ }
+
+ .cookies-policy-message p {
+    margin-right: .5rem;
+ }
+
+ .cookies-policy-message a {
+    text-decoration: underline;
+    color: #fff;
+ }
+
+ .cookies-policy-message button {
+        background-color: transparent;
+        color: #fff;
+        border: 1px solid white;
+        padding: .5rem;
+        font-size: 1rem;
+        line-height: 1.2rem;
+        font-weight: 300;
+        cursor: pointer;
+ }
+</style>
+</head>
+<body>
+
+<nav class="lang" aria-label="Idiomas">
+  <a href="index.html" class="active">ES</a>
+  <a href="index-en.html">EN</a>
+  <a href="index-pt.html">PT</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <span class="section-num">01 / 12</span>
+  <div class="container">
+    <div>
+      <span class="eyebrow">Roblox · Pitch Deck</span>
+      <h1 class="hero-title">
+        Chaos<br>Craft
+        <span class="glitch">Social Merge Brawl</span>
+      </h1>
+      <p class="hero-sub">Una experiencia social de crafting de alto riesgo para Roblox, donde colaborar y traicionar son parte del mismo loop.</p>
+      <span class="hero-credit">Producido por White Suit Studio</span>
+      <p class="hero-disclaimer">
+        Todos los assets visuales, modelos de personajes y entornos mostrados son únicamente referencia conceptual. Los assets finales de producción se desarrollarán a medida para garantizar originalidad de marca y optimización para la plataforma.
+      </p>
+    </div>
+    <div class="hero-art">
+      <img src="assets/image3.png" alt="Concepto visual de Chaos Craft">
+      <span class="hero-tag">// Concept reference v0.1</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IDEA GENERAL ============ -->
+<section class="idea">
+  <span class="section-num">02 / 12</span>
+  <div class="container">
+    <span class="eyebrow">Idea general</span>
+    <h2>Como Minecraft,<br>pero <span class="accent">gigante</span>.</h2>
+    <div class="idea-pitch">
+      <p>¿Conocés la <strong>mesa de crafteo de Minecraft</strong>? Ahora imaginala <strong>gigante</strong>, en el medio de un escenario y con todos los jugadores corriendo a su alrededor.</p>
+      <p>El objetivo es que los jugadores busquen elementos del mapa para <strong>combinar o craftear en este tablero central</strong> — pero en Roblox, las combinaciones <strong>no siempre tienen que tener lógica real</strong>, y eso es parte del juego. Cada objeto combinado produce monedas, y el objetivo es <strong>juntar la mayor cantidad de monedas</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONCEPT ============ -->
+<section class="concept">
+  <span class="section-num">03 / 12</span>
+  <div class="container">
+    <div>
+      <span class="eyebrow">El concepto</span>
+      <h2>De menús solitarios<br>al <em>caos social</em>.</h2>
+      <p class="concept-lead">Tradicionalmente, el crafting en juegos es una experiencia solitaria basada en menús. Lo estamos sacando del menú y llevándolo al mundo físico.</p>
+    </div>
+    <div class="manifesto">
+      <div class="manifesto-card">
+        <span class="num">01</span>
+        <p>El crafting es público, físico e interrumpible.</p>
+      </div>
+      <div class="manifesto-card">
+        <span class="num">02</span>
+        <p>Los jugadores eligen entre colaborar o robar estratégicamente.</p>
+      </div>
+      <div class="manifesto-card">
+        <span class="num">03</span>
+        <p>Estilo visual <strong>Brainrot</strong> de alta energía para máxima retención.</p>
+      </div>
+      <div class="manifesto-card">
+        <span class="num">04 · Inspiración</span>
+        <p><strong>Minecraft</strong> combinado con <strong>Roba un Brainrot</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CORE LOOP ============ -->
+<section class="loop">
+  <span class="section-num">04 / 12</span>
+  <div class="container">
+    <span class="eyebrow">Mecánica</span>
+    <h2>Loop principal<br>del juego.</h2>
+    <div class="loop-grid">
+      <div class="loop-card">
+        <span class="loop-num">01</span>
+        <h3>Recolectar</h3>
+        <p>Cazá materias primas en una arena dinámica que cambia con cada partida.</p>
+      </div>
+      <div class="loop-card">
+        <span class="loop-num">02</span>
+        <h3>Craftear</h3>
+        <p>Usá el tablero compartido central para combinar items frente a todos.</p>
+      </div>
+      <div class="loop-card">
+        <span class="loop-num">03</span>
+        <h3>Defender / Robar</h3>
+        <p>Protegé tu progreso o saqueá el de los otros en pleno proceso de crafteo.</p>
+      </div>
+      <div class="loop-card">
+        <span class="loop-num">04</span>
+        <h3>Ascender</h3>
+        <p>Ganá status, power-ups y monedas. Volvés a empezar más fuerte.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MONETIZATION ============ -->
+<section class="money">
+  <span class="section-num">05 / 12</span>
+  <div class="container">
+    <span class="eyebrow">Negocio</span>
+    <h2>Monetización &amp; Live-Ops.</h2>
+    <div class="money-grid">
+      <div class="money-card">
+        <div class="money-icon">G</div>
+        <h4>Gamepasses</h4>
+        <p>Crafting Shields (protección temporal) y Luck Boosters.</p>
+      </div>
+      <div class="money-card">
+        <div class="money-icon">C</div>
+        <h4>Cosméticos</h4>
+        <p>Skins de Master Craft y emotes únicos.</p>
+      </div>
+      <div class="money-card">
+        <div class="money-icon">V</div>
+        <h4>Acceso VIP</h4>
+        <p>Zonas exclusivas con materiales raros.</p>
+      </div>
+      <div class="money-card">
+        <div class="money-icon">P</div>
+        <h4>Servidores privados</h4>
+        <p>Para jugar con tus amigos en lobbies cerrados.</p>
+      </div>
+      <div class="money-card">
+        <div class="money-icon">L</div>
+        <h4>Live-Ops</h4>
+        <p>Drops semanales de recetas y eventos por temporada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT US ============ -->
+<section class="quote">
+  <span class="section-num">06 / 12</span>
+  <div class="container">
+    <span class="eyebrow">Sobre nosotros</span>
+    <h2>Convertimos la <span>tecnología</span><br>en <span>narrativa</span>.</h2>
+  </div>
+</section>
+
+<!-- ============ STUDIO ============ -->
+<section class="studio">
+  <span class="section-num">07 / 12</span>
+  <div class="container">
+    <div>
+      <span class="eyebrow">El estudio</span>
+      <h2>White Suit<br>Studio.</h2>
+      <p class="tag">// We turn technology into storytelling</p>
+      <p>Nuestro estudio de juegos, en el corazón de Buenos Aires, es un hub de creatividad donde developers apasionados colaboran para crear experiencias inmersivas y emocionantes. Diseñamos juegos que cautivan con narrativas atrapantes, mecánicas innovadoras y mundos visualmente impactantes.</p>
+      <p class="studio-meta"><a href="mailto:work@whitesuit.studio">work@whitesuit.studio</a> · Buenos Aires · 2026</p>
+    </div>
+    <div class="studio-art">
+      <img src="assets/image2.jpeg" alt="White Suit Studio">
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOUNDER ============ -->
+<section class="founder">
+  <span class="section-num">08 / 12</span>
+  <div class="container">
+    <div class="founder-photo">
+      <img src="assets/image9.jpeg" alt="Coco — CEO">
+    </div>
+    <div>
+      <span class="eyebrow">El equipo</span>
+      <h3 class="founder-name">coco</h3>
+      <div class="founder-role">CEO · Founder</div>
+      <div class="founder-bio">
+        <p>Como Chief Technology Officer (CTO), lideré el escalado de una organización técnica de 2 a 15 profesionales. Mi mayor logro fue la transición de liderar developers a liderar líderes, estableciendo una estructura de equipo sólida con metodologías diversas y optimizando la entrega según la complejidad de cada desafío.</p>
+        <p>Estudié cine y guion, trabajé en publicidad, radio y teatro, y presenté más de 100 proyectos. Creo que los videojuegos son la evolución natural del storytelling: mezclan la inmersión de la novela, la fuerza visual del cine y la participación interactiva del teatro.</p>
+        <p>Producir juegos me permite combinar mis dos pasiones: el storytelling y la complejidad de la programación.</p>
+        <p class="kicker">Absolutamente inquieto.</p>
+        <a class="founder-link" href="https://www.linkedin.com/in/cocodelacueva/" target="_blank" rel="noopener">linkedin.com/in/cocodelacueva ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORK HEADER ============ -->
+<section class="work-header">
+  <span class="section-num">09 / 12</span>
+  <div class="container">
+    <span class="eyebrow">Portfolio</span>
+    <h2>Nuestro<br>Trabajo</h2>
+  </div>
+</section>
+
+<!-- ============ PASALA ============ -->
+<section class="game">
+  <span class="section-num">10 / 12</span>
+  <div class="container">
+    <div>
+      <p class="meta">Mobile · iOS &amp; Android · 2025</p>
+      <h3>¡Pasala!</h3>
+      <p class="tag">Desafiá tu estrategia futbolera.</p>
+      <p class="body">Un juego de fútbol donde tenés que meter goles con la menor cantidad de pases posible. Cada zona de gol tiene un número objetivo de pases. Si te pasás, tu puntaje baja.</p>
+    </div>
+    <div class="shots">
+      <img src="assets/image11.png" alt="Pasala gameplay">
+      <img src="assets/image12.png" alt="Pasala menú">
+      <img src="assets/image13.png" alt="Pasala goal screen">
+    </div>
+  </div>
+</section>
+
+<!-- ============ APROBADOS ============ -->
+<section class="game alt">
+  <span class="section-num">11 / 12</span>
+  <div class="container">
+    <div>
+      <p class="meta">Mobile · iOS &amp; Android · 2026 · Beta</p>
+      <h3 class="alt-color">¡Aprobados!</h3>
+      <p class="tag">La evolución del clásico juego de trivia.</p>
+      <p class="body">Simulá una carrera universitaria donde la dificultad la maneja un Profesor IA adaptativo. A diferencia de los juegos de trivia tradicionales, el jugador enfrenta exámenes integrales por cada materia, simulando la presión y el rigor de la vida académica real para fomentar la mejora constante.</p>
+    </div>
+    <div class="shots">
+      <img src="assets/image14.png" alt="Aprobados splash">
+      <img src="assets/image15.png" alt="Aprobados career select">
+      <img src="assets/image16.png" alt="Aprobados exam">
+    </div>
+  </div>
+</section>
+
+<!-- ============ THANKS ============ -->
+<section class="thanks" id="contacto">
+  <span class="section-num">12 / 12</span>
+  <div class="container">
+    <h2>¡<span>Gracias</span>!</h2>
+    <div class="thanks-grid">
+      <div class="thanks-info">
+        <div><span class="label">Phone</span><br><a href="tel:+5491168908250">+54 9 11 6890 8250</a></div>
+        <div><span class="label">Email</span><br><a href="mailto:coco@whitesuit.studio">coco@whitesuit.studio</a></div>
+        <div><span class="label">LinkedIn</span><br><a href="https://www.linkedin.com/in/cocodelacueva/" target="_blank" rel="noopener">/in/cocodelacueva ↗</a></div>
+        <div><span class="label">Links</span><br><a href="https://whitesuit.studio/links.html" target="_blank" rel="noopener">whitesuit.studio/links ↗</a></div>
+      </div>
+      <div class="qr">
+        <img src="assets/image17.png" alt="QR White Suit Studio">
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2025 White Suit Studio · Buenos Aires</footer>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q6HSPWKRKY"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Q6HSPWKRKY');
+</script>
+
+<script>
+  const cookiesPolicy = () => {
+
+    // verifico localStorage para ver si acepto cookies
+    if (localStorage.getItem('cookiesAccepted')) {
+        return;
+    }
+
+    // Si no, muestro el mensaje de cookies
+    const cookiesMessage = document.createElement('div');   
+    cookiesMessage.className = 'cookies-policy-message';
+    cookiesMessage.innerHTML = `
+        <p>Utilizamos cookies para mejorar su experiencia. Al usar nuestro sitio, acepta nuestra <a href="cookies-policy.html" target="_blank">Política de cookies</a>.</p>
+        <button class="accept-cookies">ok</button>
+    `;
+    document.body.appendChild(cookiesMessage);
+    // Agrego evento al botón de aceptar cookies
+    const acceptButton = cookiesMessage.querySelector('.accept-cookies');
+    if (acceptButton) {
+        acceptButton.addEventListener('click', function () {
+            localStorage.setItem('cookiesAccepted', 'true');
+            cookiesMessage.remove();
+        });
+    }
+
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+      cookiesPolicy()
+  });
+</script>
+
+</body>
+</html>
