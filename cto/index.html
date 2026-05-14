@@ -119,33 +119,37 @@
         </div>
     </nav>
 
-    <header class="relative  px-8 py-24 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 overflow-hidden">
+    <header class="relative  px-8 py-12 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 overflow-hidden">
         <div class="absolute inset-0 z-0 hero-image opacity-20 lg:opacity-100 lg:w-1/2 lg:left-1/2"></div>
         
         <div class="absolute inset-0 z-10 bg-white/80 lg:bg-transparent lg:bg-gradient-to-r lg:from-white lg:via-white/90 lg:to-transparent"></div>
         <div class="relative z-20 max-w-7xl mx-auto w-full lg:w-2/3">
             <div class="max-w-2xl">
                 <hgroup>
-                    <h3 class="text-sm font-bold tracking-widest uppercase text-gray-400 mb-8 block">Fractional CTO & MVP Builder</h3>
-                    <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
+                    <h3 class="text-sm font-bold tracking-widest uppercase text-gray-400 mb-4 block">Fractional CTO & MVP Builder</h3>
+                    <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight mb-4 leading-tight">
                         The 12-Week <br><span class="text-gray-400">Tailored MVP.</span>
                     </h1>
                     <h2 class="text-3xl lg:text-3xl font-light tracking-tight mb-12">
-                        Tu Technical Founder por 12 semanas.
+                        De la idea al producto lo más rápido posible
                     </h2>
                 </hgroup>
-                <p class="text-xl lg:text-2xl text-gray-600 mb-24 leading-relaxed">
-                    Proceso de 12 semanas diseñado para transformar una visión de negocio en un producto tecnológico escalable y validado. Technical Founder para asegurar que cada decisión técnica ahorre tiempo, capital y prepare el terreno para continuar escalando sin problemas.
+                <p class="text-xl lg:text-2xl text-gray-600 mb-12 leading-relaxed">
+                    Contratar a un freelance puede ser un riesgo; una software factory, todavía no es el momento. Yo desarrollo tu idea de manera eficiente, armando el grupo de trabajo y tomando las decisiones estratégicas pensando siempre en tu negocio. El objetivo es <strong class="font-bold">llegar al mercado lo más rápido posible</strong> para escalar después. No es coaching ni un curso: es ejecución.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 mb-12">
-                    <a href="https://calendar.app.google/xp7p8A4cpxj7DfU26" target="_blank" class="bg-black text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg transition text-center" onclick="trackButtonClick('cta_header_agendar')">
-                        Agendar llamada</a>
-                <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="bg-white border border-gray-200 px-8 py-4 rounded-full font-semibold hover:bg-gray-50 transition flex items-center justify-center gap-2" onclick="trackButtonClick('cta_header_ver_deck')">
-                    Ver el Deck Completo 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                </a>
+                <div class="flex flex-col items-start gap-3 mb-12">
+                    <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-4">
+                        <a href="https://calendar.app.google/xp7p8A4cpxj7DfU26" target="_blank" class="bg-black text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg transition text-center" onclick="trackButtonClick('cta_header_agendar')">
+                            Agendar llamada</a>
+                        <a href="#contacto" class="bg-white border-2 border-black text-black px-8 py-4 rounded-full font-semibold hover:bg-black hover:text-white transition text-center" onclick="trackButtonClick('cta_header_contacto'); document.getElementById('contacto').scrollIntoView({behavior:'smooth'}); return false;">
+                            Contactame</a>
+                    </div>
+                    <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition inline-flex items-center gap-1" onclick="trackButtonClick('cta_header_ver_deck')">
+                        ¿Querés más detalle? Descargá el deck PDF
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
