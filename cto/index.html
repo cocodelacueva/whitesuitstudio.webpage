@@ -28,18 +28,21 @@
         gtag('config', 'G-Q6HSPWKRKY');
 
         // Función para trackear clics en botones
-        function trackButtonClick(buttonName) {
+        function trackButtonClick(buttonName, conversion = true) {
             // 1. Google Analytics
             gtag('event', 'click_cta', {
-            'button_name': buttonName,
-            'event_category': 'conversion',
-            'event_label': buttonName
+                'button_name': buttonName,
+                'event_category': 'conversion',
+                'event_label': buttonName
             });
-            gtag('event', 'conversion', {
-                'send_to': 'AW-16938222773/DeF4CKmsvY8cELWJ44w_',
-                'value': 1.0,
-                'currency': 'USD'
-            });
+
+            if (conversion) {
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-16938222773/DeF4CKmsvY8cELWJ44w_',
+                    'value': 1.0,
+                    'currency': 'USD'
+                });
+            }
             // 2. LinkedIn (Evento de Conversión)
             // if (window.lintrk) {
             //     window.lintrk('track', { conversion_id: buttonName }); 
@@ -107,15 +110,15 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', 'AW-16938222773');
+        gtag('config', 'AW-16938222773', { ' allow_enhanced_conversions' : true } )
     </script>
 </head>
 <body class="bg-white text-gray-900 antialiased">
     <nav class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
         <div class="font-light text-xl tracking-tighter uppercase">White Suit Studio</div>
         <div class="flex gap-6 items-center">
-            <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm font-medium text-gray-500 hover:text-black transition sm:block hidden" onclick="trackButtonClick('nav_descargar_deck')">Descargar Deck PDF</a>
-            <a href="#contacto" class="text-sm font-bold border-2 border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition" onclick="trackButtonClick('nav_contacto'); document.getElementById('contacto').scrollIntoView({behavior:'smooth'}); return false;">Contacto</a>
+            <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm font-medium text-gray-500 hover:text-black transition sm:block hidden" onclick="trackButtonClick('nav_descargar_deck', false)">Descargar Deck PDF</a>
+            <a href="#contacto" class="text-sm font-bold border-2 border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition" onclick="trackButtonClick('nav_contacto', false); document.getElementById('contacto').scrollIntoView({behavior:'smooth'}); return false;">Contacto</a>
         </div>
     </nav>
 
@@ -141,10 +144,10 @@
                     <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-4">
                         <a href="https://calendar.app.google/xp7p8A4cpxj7DfU26" target="_blank" class="bg-black text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg transition text-center" onclick="trackButtonClick('cta_header_agendar')">
                             Agendar llamada</a>
-                        <a href="#contacto" class="bg-white border-2 border-black text-black px-8 py-4 rounded-full font-semibold hover:bg-black hover:text-white transition text-center" onclick="trackButtonClick('cta_header_contacto'); document.getElementById('contacto').scrollIntoView({behavior:'smooth'}); return false;">
+                        <a href="#contacto" class="bg-white border-2 border-black text-black px-8 py-4 rounded-full font-semibold hover:bg-black hover:text-white transition text-center" onclick="trackButtonClick('cta_header_contacto', false); document.getElementById('contacto').scrollIntoView({behavior:'smooth'}); return false;">
                             Contactame</a>
                     </div>
-                    <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition inline-flex items-center gap-1" onclick="trackButtonClick('cta_header_ver_deck')">
+                    <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition inline-flex items-center gap-1" onclick="trackButtonClick('cta_header_ver_deck', false)">
                         ¿Querés más detalle? Descargá el deck PDF
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -245,7 +248,7 @@
                     Agendar Llamada
                 </a>
                 <div class="block">
-                    <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition" onclick="trackButtonClick('cta_ver_deck')">
+                    <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition" onclick="trackButtonClick('cta_ver_deck', false)">
                         O descargá el Deck PDF con el detalle de costos y entregables
                     </a>
                 </div>
@@ -262,8 +265,8 @@
                             placeholder="Tu nombre">
                     </div>
                     <div>
-                        <label for="form-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                        <input type="email" id="form-email" name="email" required
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="email" name="email" required
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition"
                             placeholder="tu@email.com">
                     </div>
@@ -306,7 +309,7 @@
                 Cuando fui Director de Tecnología (CTO Role), lideré el escalamiento de una organización técnica que creció de 2 a 15 profesionales. Mi mayor hito fue la transición de liderar desarrolladores a liderar líderes, estableciendo una estructura sólida de grupos de trabajo bajo metodologías Agile (Scrum/Kanban) y modelos híbridos, optimizando la entrega según la complejidad de cada desafío.
             </p>
             <p class="mt-12 text-lg text-gray-600 leading-relaxed">
-                <a href="https://www.linkedin.com/in/cocodelacueva/" target="_blank" onclick="trackButtonClick('link_perfil_linkedin')" class="hover:text-black">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/cocodelacueva/" target="_blank" onclick="trackButtonClick('link_perfil_linkedin', false)" class="hover:text-black">LinkedIn</a>
             </p>
         </div>
     </section>
@@ -316,7 +319,7 @@
         <p>Buenos Aires, Argentina • 2026</p>
         <div class="mt-6 flex justify-center gap-6">
             <a href="https://api.whatsapp.com/send/?text=%C2%A1Hola!&phone=+5491168908250" target="_blank" class="hover:text-black" onclick="trackButtonClick('link_footer_whatsapp')">WhatsApp</a>
-            <a href="https://api.whatsapp.com/send/?text=%C2%A1Hola!&phone=+5491168908250" target="_blank" onclick="trackButtonClick('link_footer_agendar_llamada')">Agendar llamada</a>
+            <a href="https://calendar.app.google/xp7p8A4cpxj7DfU26" target="_blank" onclick="trackButtonClick('link_footer_agendar_llamada')">Agendar llamada</a>
         </div>
     </footer>
 
@@ -380,7 +383,7 @@
             const errorMsg = document.getElementById('form-error');
 
             const name = document.getElementById('form-name').value.trim();
-            const email = document.getElementById('form-email').value.trim();
+            const email = document.getElementById('email').value.trim();
             const message = document.getElementById('form-message').value.trim();
 
             // Deshabilitar botón mientras envía
@@ -388,14 +391,15 @@
             submitBtn.textContent = 'Enviando...';
             errorMsg.classList.add('hidden');
 
-            // Track en GA4
-            trackButtonClick('form_contacto_enviar');
-
             // Evento específico de formulario para GA4
             gtag('event', 'generate_lead', {
                 'event_category': 'form',
                 'event_label': 'contact_form'
             });
+
+            //Event snippet for Formulario-cto conversion page
+            gtag('set', 'user_data', { email: email });
+            gtag('event', 'conversion', {'send_to': 'AW-16938222773/b5qqCOf5hK0cELWJ44w_'});
 
             // Meta Pixel - Lead event
             if (window.fbq) {
