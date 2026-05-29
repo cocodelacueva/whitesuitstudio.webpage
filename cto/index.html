@@ -110,7 +110,7 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', 'AW-16938222773', { ' allow_enhanced_conversions' : true } )
+        gtag('config', 'AW-16938222773', { 'allow_enhanced_conversions' : true } )
     </script>
 </head>
 <body class="bg-white text-gray-900 antialiased">
@@ -138,12 +138,12 @@
                     </h2>
                 </hgroup>
                 <p class="text-xl lg:text-2xl text-gray-600 mb-12 leading-relaxed">
-                    Contratar a un freelance puede ser un riesgo; una software factory, todavía no es el momento. Yo desarrollo tu idea de manera eficiente, armando el grupo de trabajo y tomando las decisiones estratégicas pensando siempre en tu negocio. El objetivo es <strong class="font-bold">llegar al mercado lo más rápido posible</strong> para escalar después. No es coaching ni un curso: es ejecución.
+                    Contratar a un freelance puede ser un riesgo; una software factory, todavía no es el momento. Yo desarrollo tu idea de manera eficiente pensando siempre en tu negocio. <br>El objetivo es <strong class="font-bold">llegar al mercado lo más rápido posible</strong> para escalar después. No es coaching ni un curso: es ejecución.
                 </p>
                 <div class="flex flex-col items-start gap-3 mb-12">
                     <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-4">
-                        <a href="https://calendar.app.google/xp7p8A4cpxj7DfU26" target="_blank" class="bg-black text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg transition text-center" onclick="trackButtonClick('cta_header_agendar')">
-                            Agendar llamada</a>
+                        <!-- <a href="https://calendar.app.google/xp7p8A4cpxj7DfU26" target="_blank" class="bg-black text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg transition text-center" onclick="trackButtonClick('cta_header_agendar')">
+                            Agendar llamada</a> -->
                         <a href="#contacto" class="bg-white border-2 border-black text-black px-8 py-4 rounded-full font-semibold hover:bg-black hover:text-white transition text-center" onclick="trackButtonClick('cta_header_contacto', false); document.getElementById('contacto').scrollIntoView({behavior:'smooth'}); return false;">
                             Contactame</a>
                     </div>
@@ -239,24 +239,13 @@
 
    <section id="contacto" class="px-8 py-24 bg-gray-50 border-y border-gray-100">
         <div class="max-w-3xl mx-auto text-center">
-            <h2 class="text-4xl font-bold mb-6">¿Hablamos de tu próximo producto?</h2>
-            <p class="text-lg text-gray-600 mb-10">
+            <h2 class="text-4xl font-bold mb-6">Dejame tu contacto</h2>
+            <!-- <p class="text-lg text-gray-600 mb-10">
                 Si tenés una visión clara pero necesitás el GPS técnico para ejecutarla sin errores, miremos juntos el roadmap.
-            </p>
-            <div class="space-y-4 mb-16">
-                <a href="https://calendar.app.google/xp7p8A4cpxj7DfU26" target="_blank" class="inline-block bg-black text-white px-10 py-4 rounded-full font-bold hover:shadow-xl transition" onclick="trackButtonClick('cta_agendar')">
-                    Agendar Llamada
-                </a>
-                <div class="block">
-                    <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition" onclick="trackButtonClick('cta_ver_deck', false)">
-                        O descargá el Deck PDF con el detalle de costos y entregables
-                    </a>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-200 pt-12">
-                <h3 class="text-2xl font-bold mb-3">O dejame tu contacto</h3>
-                <p class="text-gray-500 mb-8">Te respondo en menos de 24 horas.</p>
+            </p> -->
+            <div class="mb-16">
+                <!-- <h3 class="text-2xl font-bold mb-3">Dejame tu contacto</h3>
+                <p class="text-gray-500 mb-8">Te respondo en menos de 24 horas.</p> -->
                 <form id="contact-form" class="max-w-lg mx-auto text-left space-y-4" onsubmit="return handleFormSubmit(event)">
                     <div>
                         <label for="form-name" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
@@ -288,6 +277,20 @@
                 </div>
                 <div id="form-error" class="hidden max-w-lg mx-auto py-4">
                     <p class="text-red-600">Hubo un error al enviar. Probá de nuevo o escribime por WhatsApp.</p>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-12">
+                <h3 class="text-2xl font-bold mb-6">O agendá una llamada</h3>
+                <div class="space-y-4">
+                    <a href="https://calendar.app.google/xp7p8A4cpxj7DfU26" target="_blank" class="inline-block bg-black text-white px-10 py-4 rounded-full font-bold hover:shadow-xl transition" onclick="trackButtonClick('cta_agendar')">
+                        Agendar Llamada
+                    </a>
+                    <div class="block">
+                        <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition" onclick="trackButtonClick('cta_ver_deck', false)">
+                            O descargá el Deck PDF con el detalle de costos y entregables
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
