@@ -117,7 +117,7 @@
     <nav class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
         <div class="font-light text-xl tracking-tighter uppercase">White Suit Studio</div>
         <div class="flex gap-6 items-center">
-            <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm font-medium text-gray-500 hover:text-black transition sm:block hidden" onclick="trackButtonClick('nav_descargar_deck', false)">Descargar Deck PDF</a>
+            <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm font-medium text-gray-500 hover:text-black transition sm:block hidden" onclick="openDownloadModal(event, 'nav_click_descargar_deck')">Descargar Deck PDF</a>
             <a href="#contacto" class="text-sm font-bold border-2 border-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition" onclick="trackButtonClick('nav_contacto', false); document.getElementById('contacto').scrollIntoView({behavior:'smooth'}); return false;">Contacto</a>
         </div>
     </nav>
@@ -147,7 +147,7 @@
                         <a href="#contacto" class="bg-white border-2 border-black text-black px-8 py-4 rounded-full font-semibold hover:bg-black hover:text-white transition text-center" onclick="trackButtonClick('cta_header_contacto', false); document.getElementById('contacto').scrollIntoView({behavior:'smooth'}); return false;">
                             Contactame</a>
                     </div>
-                    <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition inline-flex items-center gap-1" onclick="trackButtonClick('cta_header_ver_deck', false)">
+                    <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition inline-flex items-center gap-1" onclick="openDownloadModal(event, 'cta_header_ver_deck')">
                         ¿Querés más detalle? Descargá el deck PDF
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -239,10 +239,10 @@
 
    <section id="contacto" class="px-8 py-24 bg-gray-50 border-y border-gray-100">
         <div class="max-w-3xl mx-auto text-center">
-            <h2 class="text-4xl font-bold mb-6">Dejame tu contacto</h2>
-            <!-- <p class="text-lg text-gray-600 mb-10">
-                Si tenés una visión clara pero necesitás el GPS técnico para ejecutarla sin errores, miremos juntos el roadmap.
-            </p> -->
+            <h2 class="text-4xl font-bold mb-6">Contactame</h2>
+            <p class="text-lg text-gray-600 mb-10">
+                Dejame tu mail y contame brevemente qué querés armar. Te respondo en menos de 24hs. Si preferís, también podés escribirme por WhatsApp o agendar una llamada para charlar sin compromiso.
+            </p>
             <div class="mb-16">
                 <!-- <h3 class="text-2xl font-bold mb-3">Dejame tu contacto</h3>
                 <p class="text-gray-500 mb-8">Te respondo en menos de 24 horas.</p> -->
@@ -287,7 +287,7 @@
                         Agendar Llamada
                     </a>
                     <div class="block">
-                        <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition" onclick="trackButtonClick('cta_ver_deck', false)">
+                        <a href="https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf" target="_blank" class="text-sm text-gray-500 underline hover:text-black transition" onclick="openDownloadModal(event, 'cta_ver_deck')">
                             O descargá el Deck PDF con el detalle de costos y entregables
                         </a>
                     </div>
@@ -435,6 +435,144 @@
 
             return false;
         }
+    </script>
+
+    <!-- Modal de descarga del Deck (captura email + nombre) -->
+    <div id="download-modal" class="hidden fixed inset-0 z-[1200] flex items-center justify-center px-4">
+        <div id="download-modal-overlay" class="absolute inset-0 bg-black/60"></div>
+        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-8" role="dialog" aria-modal="true" aria-labelledby="download-modal-title">
+            <button type="button" id="download-modal-close" aria-label="Cerrar"
+                class="absolute top-4 right-4 text-gray-400 hover:text-black transition text-2xl leading-none">&times;</button>
+
+            <h3 id="download-modal-title" class="text-2xl font-bold mb-2">Descargá el Deck PDF</h3>
+            <p class="text-gray-600 mb-6">Dejame tu email y te lo abro al instante. El detalle de costos, entregables y el proceso completo de las 12 semanas.</p>
+
+            <form id="download-form" class="text-left space-y-4" onsubmit="return handleDownloadSubmit(event)">
+                <div>
+                    <label for="download-email" class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+                    <input type="email" id="download-email" name="email" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition"
+                        placeholder="tu@email.com">
+                </div>
+                <div>
+                    <label for="download-name" class="block text-sm font-medium text-gray-700 mb-1">Nombre <span class="text-gray-400 font-normal">(opcional)</span></label>
+                    <input type="text" id="download-name" name="name"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition"
+                        placeholder="Tu nombre">
+                </div>
+                <button type="submit" id="download-submit-btn"
+                    class="w-full bg-black text-white py-4 rounded-full font-semibold hover:shadow-lg transition">
+                    Descargar PDF
+                </button>
+                <p id="download-error" class="hidden text-red-600 text-sm text-center">Hubo un error. Probá de nuevo.</p>
+                <p class="text-xs text-gray-400 text-center">Usaré tu email solo para contactarte sobre esto. Nada de spam.</p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // MODAL DE DESCARGA DEL DECK → Google Sheets (pestaña "Descargas")
+        // =============================================
+        const DECK_PDF_URL = 'https://public.whitesuit.studio/wss/12-week-tailored-mvp-deck_web.pdf';
+        let downloadTrackName = 'descarga_deck';
+
+        function openDownloadModal(event, trackName) {
+            if (event) event.preventDefault();
+            downloadTrackName = trackName || 'descarga_deck';
+
+            // Analytics: click en descargar (no es conversión todavía)
+            if (typeof trackButtonClick === 'function') {
+                trackButtonClick(downloadTrackName, false);
+            }
+
+            // Pre-llenar email si ya lo había dejado antes (comodidad)
+            const savedEmail = localStorage.getItem('deckEmail');
+            if (savedEmail) document.getElementById('download-email').value = savedEmail;
+
+            const modal = document.getElementById('download-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => document.getElementById('download-email').focus(), 50);
+        }
+
+        function closeDownloadModal() {
+            document.getElementById('download-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+            document.getElementById('download-error').classList.add('hidden');
+        }
+
+        function handleDownloadSubmit(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('download-submit-btn');
+            const errorMsg = document.getElementById('download-error');
+            const email = document.getElementById('download-email').value.trim();
+            const name = document.getElementById('download-name').value.trim();
+
+            if (!email) return false;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Abriendo...';
+            errorMsg.classList.add('hidden');
+
+            // Guardo el email para pre-llenar la próxima vez
+            localStorage.setItem('deckEmail', email);
+
+            // Analytics: lead + conversión por descarga
+            gtag('event', 'generate_lead', {
+                'event_category': 'download',
+                'event_label': "descarga_pdf_modal"
+            });
+            gtag('set', 'user_data', { email: email });
+            gtag('event', 'conversion', { 'send_to': 'AW-16938222773/DeF4CKmsvY8cELWJ44w_', 'value': 1.0, 'currency': 'USD' });
+            if (window.fbq) {
+                fbq('track', 'Lead', { content_name: 'descarga_deck' });
+            }
+
+            // Abro el PDF YA (antes del fetch) para no perder el gesto del usuario
+            // y evitar bloqueos de pop-up del navegador.
+            const pdfWindow = window.open(DECK_PDF_URL, '_blank');
+
+            // Guardo el contacto en la pestaña "Descargas"
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'download',
+                    name: name,
+                    email: email,
+                    message: 'Descarga PDF',
+                    timestamp: new Date().toISOString(),
+                    source: window.location.href
+                })
+            })
+            .then(() => {
+                closeDownloadModal();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Descargar PDF';
+                // Fallback por si el navegador bloqueó la pestaña
+                if (!pdfWindow) window.location.href = DECK_PDF_URL;
+            })
+            .catch(() => {
+                errorMsg.classList.remove('hidden');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Descargar PDF';
+                // Aunque falle el guardado, igual dejo descargar
+                if (!pdfWindow) window.location.href = DECK_PDF_URL;
+            });
+
+            return false;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('download-modal-close').addEventListener('click', closeDownloadModal);
+            document.getElementById('download-modal-overlay').addEventListener('click', closeDownloadModal);
+            document.addEventListener('keydown', function (ev) {
+                if (ev.key === 'Escape') closeDownloadModal();
+            });
+        });
     </script>
 
     <!-- Botón flotante de WhatsApp -->
