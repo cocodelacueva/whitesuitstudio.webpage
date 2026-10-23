@@ -5,6 +5,16 @@ Maquetado armado en next con multiples páginas.
 * Para desarrollo mirar el readme interno.
 * Para publicar, desde _web se corre npm run publish:local y esto copia la web estatica a la raiz.
 
+## Publicar web
+
+Una vez ejecutado el comando de arriba hay que subir al buket las carpetas y archivos nuevos generados. Luego invalidar.
+* index.html
+* carpetas: es/ en/ pt/
+* _next/
+* img/
+* 404.html y 404/
+* index.txt
+
 ## Formulario google sheets
 Hay un formulario que usa Google Sheets para registrar y AppsScripts:
 
