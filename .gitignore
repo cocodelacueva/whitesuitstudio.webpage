@@ -73,3 +73,9 @@ package-lock.json
 pnpm-lock.yaml
 
 .swc/
+
+# Next.js (_web)
+_web/out/
+_web/_archivo/
+next-env.d.ts
+*.tsbuildinfo
