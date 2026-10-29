@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arbolito White Suit</title>
+<meta name="description" content="Un mundo navideño en 3D para recorrer. Mové el mouse y llega el trineo con el hombre de traje blanco. Felices fiestas de White Suit Studio.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="White Suit Studio">
+<meta property="og:title" content="Felices fiestas · White Suit Studio">
+<meta property="og:description" content="Un mundo navideño en 3D para recorrer. Mové el mouse y llega el trineo.">
+<meta property="og:url" content="https://public.whitesuit.studio/arbolito/index.html">
+<meta property="og:image" content="https://public.whitesuit.studio/arbolito/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mundo navideño low-poly en 3D con un arbolito bajo un cielo estrellado">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://public.whitesuit.studio/arbolito/og.png">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;500&display=swap">
+<style>
+  /* Layout: one full-bleed night scene; text sits quietly in the corners like a film title card */
+  :root {
+    --night: #0b1220;
+    --ink: #eef1f6;
+    --mist: #8b96ab;
+    --gold: #e8c27a;
+    --line: rgba(238, 241, 246, 0.22);
+    --display: "Raleway", "Helvetica Neue", Arial, sans-serif;
+    color-scheme: dark;
+  }
+  html, body { height: 100%; }
+  body {
+    background: var(--night);
+    color: var(--ink);
+    font-family: var(--display);
+    overflow: hidden;
+  }
+  #scene { position: fixed; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; }
+  .card {
+    position: fixed; inset: 0; pointer-events: none;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding-block: max(24px, env(safe-area-inset-top, 0px)) max(24px, env(safe-area-inset-bottom, 0px));
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .top { display: flex; flex-direction: column; gap: 6px; padding-inline: clamp(0px, 3vw, 32px); }
+  h1 {
+    margin: 0; font-weight: 200; font-size: clamp(34px, 6vw, 64px);
+    letter-spacing: 0.02em; line-height: 1.05; text-wrap: balance;
+  }
+  .sig {
+    margin: 0; font-weight: 300; font-size: 12px; letter-spacing: 0.32em;
+    text-transform: uppercase; color: var(--mist);
+  }
+  .bottom {
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap;
+    padding-inline: clamp(0px, 3vw, 32px);
+  }
+  .hint { max-width: 46ch; line-height: 1.7;
+    margin: 0; font-weight: 300; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--mist); transition: opacity .8s ease;
+  }
+  .hint b { color: var(--gold); font-weight: 500; }
+  .hint.gone { opacity: 0; }
+  button {
+    pointer-events: auto; font: 300 12px/1 var(--display); letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px;
+    padding: 10px 16px; cursor: pointer; transition: border-color .2s, color .2s;
+  }
+  button:hover { border-color: var(--gold); color: var(--gold); }
+  button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+</style>
+</head>
+<body>
+
+<canvas id="scene" aria-label="Arbolito navideño en 3D; al mover el mouse aparece un trineo con el hombre de traje blanco"></canvas>
+<div class="card">
+  <div class="top">
+    <h1>Felices fiestas</h1>
+    <p class="sig">White Suit Studio · Buenos Aires</p>
+  </div>
+  <div class="bottom">
+    <p class="hint" id="hint">Arrastrá para girar · Clic derecho para moverte · WASD para caminar · Rueda para acercarte · Mové el mouse y llega el trineo <b>✦</b></p>
+    <button id="auto" type="button" aria-pressed="false">Vuelo automático</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+  const canvas = document.getElementById('scene');
+  const hint = document.getElementById('hint');
+  const autoBtn = document.getElementById('auto');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (matchMedia('(pointer: coarse)').matches) hint.innerHTML = 'Arrastrá para girar · Tocá para llamar al trineo <b>✦</b>';
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x0b1220);
+  scene.fog = new THREE.Fog(0x0b1220, 30, 95);
+
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 500);
+  const LOOK = new THREE.Vector3(0, 3.4, 0);
+
+  // ---------- light ----------
+  scene.add(new THREE.HemisphereLight(0xbcd0ff, 0x1a2233, 0.55));
+  const moon = new THREE.DirectionalLight(0xdfe8ff, 0.7);
+  moon.position.set(-6, 12, 8); scene.add(moon);
+  const fill = new THREE.DirectionalLight(0x9fb4e0, .35); fill.position.set(7, 6, -8); scene.add(fill);
+  const warm = new THREE.PointLight(0xffc477, 1.1, 8, 2);
+  warm.position.set(0, 3.6, 0); scene.add(warm);
+
+  const mat = (c, o = {}) => new THREE.MeshStandardMaterial({ color: c, flatShading: true, roughness: .8, ...o });
+
+  // ---------- terrain: flat clearing around the tree, rolling snowy hills, mountains at the edge ----------
+  const smooth = (a, b, x) => { const t = THREE.MathUtils.clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+  function hgt(x, z) {
+    const r = Math.hypot(x, z);
+    const hills = Math.sin(x * .11) * Math.cos(z * .09) * 2.2 + Math.sin(x * .045 + z * .06) * 3.0 + 1.6;
+    return smooth(10, 26, r) * hills + smooth(70, 120, r) * 26;
+  }
+  const terrGeo = new THREE.PlaneGeometry(320, 320, 140, 140);
+  terrGeo.rotateX(-Math.PI / 2);
+  const tp = terrGeo.attributes.position;
+  for (let i = 0; i < tp.count; i++) tp.setY(i, hgt(tp.getX(i), tp.getZ(i)) + (Math.random() - .5) * .08);
+  terrGeo.computeVertexNormals();
+  scene.add(new THREE.Mesh(terrGeo, mat(0xa9b5c9, { roughness: 1 })));
+  // seeded random so the world is the same on every visit
+  let seed = 7;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+  // ---------- tree ----------
+  const tree = new THREE.Group(); scene.add(tree);
+  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(.28, .36, 1, 7), mat(0x5a4636));
+  trunk.position.y = .5; tree.add(trunk);
+  const tiers = [ [2.6, 2.6, 1.0], [2.1, 2.3, 2.4], [1.6, 2.0, 3.6], [1.05, 1.7, 4.7] ];
+  tiers.forEach(([r, h, y], i) => {
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(r, h, 9), mat(i % 2 ? 0x1f4d3d : 0x24594a));
+    cone.position.y = y + h / 2; cone.rotation.y = i * .35; tree.add(cone);
+    const snow = new THREE.Mesh(new THREE.ConeGeometry(r * .42, h * .42, 9), mat(0xf1f4f8));
+    snow.position.y = y + h - h * .21; snow.rotation.y = i * .35; tree.add(snow);
+  });
+  const TOP = 4.7 + 1.7;
+  const star = new THREE.Mesh(new THREE.OctahedronGeometry(.32, 0),
+    new THREE.MeshBasicMaterial({ color: 0xffd98a }));
+  star.position.y = TOP + .15; tree.add(star);
+
+  // lights spiralling up the tree
+  const bulbs = [];
+  const palette = [0xffcf7a, 0xfff2d6, 0xff8a6b, 0xffcf7a, 0xbfe3ff];
+  const bulbGeo = new THREE.SphereGeometry(.075, 8, 6);
+  const N = 70;
+  for (let i = 0; i < N; i++) {
+    const t = i / N;
+    const y = 1.1 + t * (TOP - 1.4);
+    const r = (2.55 * (1 - t) + .25) * .93;
+    const a = t * Math.PI * 2 * 5.5;
+    const m = new THREE.MeshBasicMaterial({ color: palette[i % palette.length] });
+    const b = new THREE.Mesh(bulbGeo, m);
+    b.position.set(Math.cos(a) * r, y, Math.sin(a) * r);
+    b.userData = { base: m.color.clone(), phase: Math.random() * 6.28, speed: 1.5 + Math.random() * 2 };
+    tree.add(b); bulbs.push(b);
+  }
+  // a few wrapped gifts
+  [[1.9, .9, 0xf1f4f8, 0xe8c27a], [-2.1, 1.3, 0x8e2b2b, 0xf1f4f8], [.6, 2.2, 0x1f3a5f, 0xe8c27a]].forEach(([x, z, c, rib]) => {
+    const s = .45 + Math.random() * .2;
+    const box = new THREE.Mesh(new THREE.BoxGeometry(s, s, s), mat(c));
+    box.position.set(x, s / 2, z); box.rotation.y = Math.random(); scene.add(box);
+    const r1 = new THREE.Mesh(new THREE.BoxGeometry(s * 1.02, s * 1.02, s * .16), mat(rib));
+    r1.position.copy(box.position); r1.rotation.y = box.rotation.y; scene.add(r1);
+    const r2 = r1.clone(); r2.rotation.y += Math.PI / 2; scene.add(r2);
+  });
+
+  // ---------- the world around it ----------
+  const pineGreen = [mat(0x1d4637), mat(0x24533f), mat(0x183b30)];
+  const snowCap = mat(0xeef2f7), bark = mat(0x4e3b2d);
+  function pine(x, z, s) {
+    const g = new THREE.Group(); g.position.set(x, hgt(x, z) - .1, z); g.scale.setScalar(s); g.rotation.y = rnd() * 6;
+    const tr = new THREE.Mesh(new THREE.CylinderGeometry(.15, .2, .8, 6), bark); tr.position.y = .4; g.add(tr);
+    [[1.3, 1.6, .6], [1.0, 1.4, 1.5], [.65, 1.2, 2.3]].forEach(([r, h, y]) => {
+      const c = new THREE.Mesh(new THREE.ConeGeometry(r, h, 7), pineGreen[(rnd() * 3) | 0]); c.position.y = y + h / 2; g.add(c);
+      const sc = new THREE.Mesh(new THREE.ConeGeometry(r * .45, h * .42, 7), snowCap); sc.position.y = y + h * .79; g.add(sc);
+    });
+    scene.add(g);
+  }
+  const cabins = [[18, -6], [-17, -9], [-6, 19], [12, 16]];
+  const cabinSpots = cabins.map(([x, z]) => new THREE.Vector2(x, z));
+  for (let i = 0; i < 110; i++) {
+    const a = rnd() * Math.PI * 2, r = 11 + Math.pow(rnd(), .8) * 62;
+    const x = Math.cos(a) * r, z = Math.sin(a) * r;
+    if (cabinSpots.some(c => c.distanceTo(new THREE.Vector2(x, z)) < 5)) continue;
+    pine(x, z, .8 + rnd() * 1.1);
+  }
+  // cabins with lit windows
+  const wall = mat(0x6b4a33), roofM = mat(0xe9eef5), winM = new THREE.MeshBasicMaterial({ color: 0xffc56b });
+  cabins.forEach(([x, z]) => {
+    const g = new THREE.Group(); g.position.set(x, hgt(x, z), z); g.rotation.y = Math.atan2(-x, -z); scene.add(g);
+    const body = new THREE.Mesh(new THREE.BoxGeometry(3, 2, 2.6), wall); body.position.y = 1; g.add(body);
+    const roof = new THREE.Mesh(new THREE.ConeGeometry(2.6, 1.6, 4), roofM); roof.position.y = 2.8; roof.rotation.y = Math.PI / 4; roof.scale.set(1.2, 1, 1.05); g.add(roof);
+    const chim = new THREE.Mesh(new THREE.BoxGeometry(.4, 1, .4), mat(0x5a5f6b)); chim.position.set(.8, 3.2, -.3); g.add(chim);
+    [[-.8, 1.1], [.8, 1.1]].forEach(([wx, wy]) => {
+      const w = new THREE.Mesh(new THREE.PlaneGeometry(.6, .6), winM); w.position.set(wx, wy, 1.31); g.add(w);
+    });
+    const door = new THREE.Mesh(new THREE.PlaneGeometry(.6, 1.1), mat(0x3b2a1e)); door.position.set(0, .55, 1.31); g.add(door);
+    const light = new THREE.PointLight(0xffb45e, .7, 6, 2); light.position.set(0, 1.2, 2.2); g.add(light);
+  });
+  // lamp posts around the clearing
+  [0, 1, 2, 3].forEach(k => {
+    const a = k * Math.PI / 2 + Math.PI / 4, x = Math.cos(a) * 7, z = Math.sin(a) * 7;
+    const post = new THREE.Mesh(new THREE.CylinderGeometry(.06, .08, 2.4, 6), mat(0x22262e)); post.position.set(x, 1.2, z); scene.add(post);
+    const lamp = new THREE.Mesh(new THREE.SphereGeometry(.18, 8, 6), new THREE.MeshBasicMaterial({ color: 0xffe0a3 })); lamp.position.set(x, 2.5, z); scene.add(lamp);
+    const pl = new THREE.PointLight(0xffd08a, .6, 6, 2); pl.position.set(x, 2.4, z); scene.add(pl);
+  });
+  // a snowman keeping the tree company
+  (() => {
+    const g = new THREE.Group(); g.position.set(4.2, 0, 3.4); g.rotation.y = .6; scene.add(g);
+    [[.55, .5], [.4, 1.3], [.28, 1.9]].forEach(([r, y]) => { const b = new THREE.Mesh(new THREE.SphereGeometry(r, 10, 8), mat(0xf4f6fa)); b.position.y = y; g.add(b); });
+    const nose = new THREE.Mesh(new THREE.ConeGeometry(.05, .25, 6), mat(0xe07a2e)); nose.position.set(0, 1.9, .3); nose.rotation.x = Math.PI / 2; g.add(nose);
+    [-.1, .1].forEach(x => { const e = new THREE.Mesh(new THREE.SphereGeometry(.035, 5, 4), mat(0x15171c)); e.position.set(x, 2, .25); g.add(e); });
+    const scarf = new THREE.Mesh(new THREE.TorusGeometry(.3, .06, 6, 12), mat(0xb3312f)); scarf.position.y = 1.65; scarf.rotation.x = Math.PI / 2; g.add(scarf);
+    [-1, 1].forEach(sd => { const arm = new THREE.Mesh(new THREE.CylinderGeometry(.02, .02, .8, 4), bark); arm.position.set(sd * .6, 1.4, 0); arm.rotation.z = sd * -1.0; g.add(arm); });
+  })();
+
+  // ---------- sky ----------
+  const starGeo = new THREE.BufferGeometry();
+  const sp = [];
+  for (let i = 0; i < 1100; i++) {
+    const th = Math.random() * Math.PI * 2, ph = Math.acos(Math.random() * .9 + .08);
+    const R = 220;
+    sp.push(Math.cos(th) * Math.sin(ph) * R, Math.cos(ph) * R, Math.sin(th) * Math.sin(ph) * R);
+  }
+  starGeo.setAttribute('position', new THREE.Float32BufferAttribute(sp, 3));
+  scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xcfd8ea, size: .9, fog: false })));
+
+  // snow
+  const FLAKES = 1800;
+  const snowGeo = new THREE.BufferGeometry();
+  const sPos = new Float32Array(FLAKES * 3), sVel = new Float32Array(FLAKES);
+  for (let i = 0; i < FLAKES; i++) {
+    sPos[i * 3] = (Math.random() - .5) * 32;
+    sPos[i * 3 + 1] = Math.random() * 16;
+    sPos[i * 3 + 2] = (Math.random() - .5) * 32;
+    sVel[i] = .4 + Math.random() * .8;
+  }
+  snowGeo.setAttribute('position', new THREE.BufferAttribute(sPos, 3));
+  const snowPts = new THREE.Points(snowGeo, new THREE.PointsMaterial({ color: 0xffffff, size: .07, transparent: true, opacity: .85 }));
+  scene.add(snowPts);
+
+  // ---------- sleigh + man in the white suit ----------
+  const rig = new THREE.Group();       // position
+  const yaw = new THREE.Group();       // facing left/right
+  const tilt = new THREE.Group();      // nose up/down
+  rig.add(yaw); yaw.add(tilt); scene.add(rig);
+
+  const red = mat(0x8e2b2b), gold = mat(0xe8c27a, { metalness: .4, roughness: .4 });
+  const white = mat(0xf4f6fa), black = mat(0x15171c), skin = mat(0xd9a982);
+
+  // sleigh body (faces +x)
+  const base = new THREE.Mesh(new THREE.BoxGeometry(1.5, .32, .8), red); base.position.y = .32; tilt.add(base);
+  const back = new THREE.Mesh(new THREE.BoxGeometry(.22, .75, .8), red); back.position.set(-.68, .62, 0); back.rotation.z = -.15; tilt.add(back);
+  const front = new THREE.Mesh(new THREE.BoxGeometry(.18, .42, .8), red); front.position.set(.7, .5, 0); front.rotation.z = .35; tilt.add(front);
+  const trim = new THREE.Mesh(new THREE.BoxGeometry(1.52, .05, .82), gold); trim.position.y = .5; tilt.add(trim);
+  [-.36, .36].forEach(z => {
+    const run = new THREE.Mesh(new THREE.BoxGeometry(1.7, .05, .05), gold); run.position.set(0, .04, z); tilt.add(run);
+    const curl = new THREE.Mesh(new THREE.TorusGeometry(.2, .03, 6, 12, Math.PI), gold);
+    curl.position.set(.85, .24, z); curl.rotation.z = -Math.PI / 2; tilt.add(curl);
+    [-.45, .4].forEach(x => { const st = new THREE.Mesh(new THREE.BoxGeometry(.04, .2, .04), gold); st.position.set(x, .12, z); tilt.add(st); });
+  });
+  // gift sack
+  const sack = new THREE.Mesh(new THREE.DodecahedronGeometry(.3, 0), mat(0x6e5a43));
+  sack.position.set(-.45, .72, .12); sack.scale.set(1, 1.2, 1); tilt.add(sack);
+
+  // the man in the white suit (from the studio photo): double-breasted white jacket,
+  // polka-dot tie and pocket square, dark trousers, typing on a laptop. Plus a santa hat.
+  function dots(bg, fg, n) {
+    const c = document.createElement('canvas'); c.width = c.height = 64;
+    const g = c.getContext('2d'); g.fillStyle = bg; g.fillRect(0, 0, 64, 64); g.fillStyle = fg;
+    for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+      g.beginPath(); g.arc((x + (y % 2 ? .5 : 0)) * 64 / n + 4, y * 64 / n + 4, 1.8, 0, 7); g.fill();
+    }
+    const tx = new THREE.CanvasTexture(c); tx.wrapS = tx.wrapT = THREE.RepeatWrapping; return tx;
+  }
+  const polka = new THREE.MeshStandardMaterial({ map: dots('#1b1f2a', '#f4f6fa', 6), roughness: .7 });
+  const suit = mat(0xf2f3f5), lapelM = mat(0xe4e7ec), pants = mat(0x1d1f25), btn = mat(0x2a2620);
+  const skinD = mat(0x5b3a29);
+
+  const man = new THREE.Group(); man.position.set(-.05, .48, 0); man.scale.setScalar(1.15); tilt.add(man);
+  const legs = new THREE.Mesh(new THREE.BoxGeometry(.55, .18, .42), pants); legs.position.set(.2, .08, 0); man.add(legs);
+  const torso = new THREE.Mesh(new THREE.BoxGeometry(.34, .58, .46), suit); torso.position.set(-.02, .44, 0); man.add(torso);
+  const shirt = new THREE.Mesh(new THREE.BoxGeometry(.02, .26, .13), mat(0xffffff)); shirt.position.set(.155, .6, 0); man.add(shirt);
+  const tie = new THREE.Mesh(new THREE.BoxGeometry(.025, .3, .06), polka); tie.position.set(.17, .55, 0); man.add(tie);
+  [-1, 1].forEach(s => {   // wide peak lapels
+    const lap = new THREE.Mesh(new THREE.BoxGeometry(.03, .3, .08), lapelM);
+    lap.position.set(.16, .58, s * .085); lap.rotation.x = s * -.35; man.add(lap);
+  });
+  [[.36, -.07], [.36, .07], [.22, -.07], [.22, .07]].forEach(([y, z]) => {   // double-breasted buttons
+    const b = new THREE.Mesh(new THREE.SphereGeometry(.018, 6, 4), btn); b.position.set(.165, y, z); man.add(b);
+  });
+  const pocket = new THREE.Mesh(new THREE.BoxGeometry(.02, .06, .08), polka); pocket.position.set(.165, .62, -.16); man.add(pocket);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(.16, 12, 10), skinD); head.position.set(0, .9, 0); man.add(head);
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(.06, .07, .1, 8), skinD); neck.position.set(0, .76, 0); man.add(neck);
+  const shades = new THREE.Mesh(new THREE.BoxGeometry(.04, .055, .28), black); shades.position.set(.145, .92, 0); man.add(shades);
+  const brim = new THREE.Mesh(new THREE.CylinderGeometry(.175, .175, .07, 12), white); brim.position.set(-.01, 1.02, 0); man.add(brim);
+  const hat = new THREE.Mesh(new THREE.ConeGeometry(.15, .42, 10), mat(0xb3312f)); hat.position.set(-.1, 1.22, 0); hat.rotation.z = .55; man.add(hat);
+  const pom = new THREE.Mesh(new THREE.SphereGeometry(.06, 8, 6), white); pom.position.set(-.28, 1.35, 0); man.add(pom);
+  // laptop on his lap, screen glowing toward him
+  const lapBase = new THREE.Mesh(new THREE.BoxGeometry(.3, .02, .36), mat(0xc9ccd2, { metalness: .5, roughness: .4 }));
+  lapBase.position.set(.32, .2, 0); man.add(lapBase);
+  const lid = new THREE.Group(); lid.position.set(.47, .21, 0); lid.rotation.z = .25; man.add(lid);
+  const lidBack = new THREE.Mesh(new THREE.BoxGeometry(.015, .24, .36), mat(0xc9ccd2, { metalness: .5, roughness: .4 }));
+  lidBack.position.y = .12; lid.add(lidBack);
+  const screen = new THREE.Mesh(new THREE.PlaneGeometry(.33, .21), new THREE.MeshBasicMaterial({ color: 0x9fd0ff }));
+  screen.position.set(-.009, .12, 0); screen.rotation.y = -Math.PI / 2; lid.add(screen);
+  const glow = new THREE.PointLight(0x9fd0ff, .5, 1.2, 2); glow.position.set(.3, .35, 0); man.add(glow);
+  const arms = [], hands = [];
+  [-.24, .24].forEach(z => {
+    const arm = new THREE.Mesh(new THREE.CylinderGeometry(.06, .055, .46, 6), suit);
+    arm.geometry.translate(0, -.23, 0);
+    arm.position.set(0, .68, z); arm.rotation.z = .7; arm.rotation.x = z > 0 ? .25 : -.25; man.add(arm); arms.push(arm);
+    const hand = new THREE.Mesh(new THREE.SphereGeometry(.05, 6, 5), skinD); hand.position.set(.3, .25, z * .45); man.add(hand); hands.push(hand);
+  });
+
+  // reindeer
+  const deerMat = mat(0x7a5a3f), antlerMat = mat(0xd8c7a3);
+  const deerLegs = [];
+  function reindeer(x) {
+    const d = new THREE.Group(); d.position.set(x, .55, 0);
+    const body = new THREE.Mesh(new THREE.BoxGeometry(.75, .32, .3), deerMat); d.add(body);
+    const neck = new THREE.Mesh(new THREE.BoxGeometry(.14, .38, .14), deerMat); neck.position.set(.36, .26, 0); neck.rotation.z = -.5; d.add(neck);
+    const hd = new THREE.Mesh(new THREE.BoxGeometry(.3, .16, .16), deerMat); hd.position.set(.52, .44, 0); d.add(hd);
+    const nose = new THREE.Mesh(new THREE.SphereGeometry(.04, 6, 4), black); nose.position.set(.68, .43, 0); d.add(nose);
+    [-.06, .06].forEach(z => {
+      const a1 = new THREE.Mesh(new THREE.CylinderGeometry(.015, .02, .28, 4), antlerMat); a1.position.set(.44, .62, z); a1.rotation.x = z * 4; d.add(a1);
+      const a2 = new THREE.Mesh(new THREE.CylinderGeometry(.012, .015, .14, 4), antlerMat); a2.position.set(.5, .68, z * 1.6); a2.rotation.z = -.9; d.add(a2);
+    });
+    const tail = new THREE.Mesh(new THREE.SphereGeometry(.05, 5, 4), white); tail.position.set(-.4, .1, 0); d.add(tail);
+    [[.28, .1], [.28, -.1], [-.28, .1], [-.28, -.1]].forEach(([lx, lz], k) => {
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(.035, .03, .4, 5), deerMat);
+      leg.geometry.translate(0, -.2, 0); leg.position.set(lx, -.12, lz);
+      leg.userData.phase = k % 2 ? Math.PI : 0; leg.userData.front = lx > 0;
+      d.add(leg); deerLegs.push(leg);
+    });
+    tilt.add(d); return d;
+  }
+  const deer1 = reindeer(1.75), deer2 = reindeer(2.75);
+  // reins
+  const reinMat = new THREE.LineBasicMaterial({ color: 0xe8c27a });
+  [-.2, .2].forEach(z => {
+    const g = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(.8, .72, z * .9), new THREE.Vector3(1.3, .95, z * .6),
+      new THREE.Vector3(2.3, 1.0, z * .5), new THREE.Vector3(3.2, 1.0, z * .3)]);
+    tilt.add(new THREE.Line(g, reinMat));
+  });
+  const bell = new THREE.Mesh(new THREE.SphereGeometry(.06, 6, 5), gold); bell.position.set(1.55, .82, .16); tilt.add(bell);
+  rig.scale.setScalar(.85);
+
+  // sparkle trail
+  const TRAIL = 160;
+  const tGeo = new THREE.BufferGeometry();
+  const tPos = new Float32Array(TRAIL * 3), tCol = new Float32Array(TRAIL * 3), tLife = new Float32Array(TRAIL);
+  const tVel = new Float32Array(TRAIL * 3);
+  tGeo.setAttribute('position', new THREE.BufferAttribute(tPos, 3));
+  tGeo.setAttribute('color', new THREE.BufferAttribute(tCol, 3));
+  scene.add(new THREE.Points(tGeo, new THREE.PointsMaterial({
+    size: .14, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false })));
+  let tHead = 0;
+  const sparkC = new THREE.Color(0xffe2a0);
+  function emit(p) {
+    const i = tHead; tHead = (tHead + 1) % TRAIL;
+    tPos[i * 3] = p.x + (Math.random() - .5) * .3;
+    tPos[i * 3 + 1] = p.y + (Math.random() - .5) * .3;
+    tPos[i * 3 + 2] = p.z + (Math.random() - .5) * .3;
+    tVel[i * 3] = (Math.random() - .5) * .3; tVel[i * 3 + 1] = -.2 - Math.random() * .3; tVel[i * 3 + 2] = (Math.random() - .5) * .3;
+    tLife[i] = 1;
+  }
+
+  // ---------- orbit camera (drag / arrows / wheel) ----------
+  const orbit = { theta: 0, phi: 1.36, radius: 15, minR: 4, maxR: 48 };
+  const lookGoal = LOOK.clone();
+  const goal = { theta: 0, phi: 1.36, radius: 15 };
+  const keys = {};
+  let dragging = false, dragMode = 'orbit', dragMoved = 0, lastX = 0, lastY = 0, lastInput = performance.now() - 6000;
+
+  function placeCamera() {
+    const r = orbit.radius;
+    camera.position.set(
+      LOOK.x + r * Math.sin(orbit.phi) * Math.sin(orbit.theta),
+      LOOK.y + r * Math.cos(orbit.phi),
+      LOOK.z + r * Math.sin(orbit.phi) * Math.cos(orbit.theta));
+    // never go under the snow: hills rise around the clearing
+    const floor = hgt(camera.position.x, camera.position.z) + 1.2;
+    if (camera.position.y < floor) camera.position.y = floor;
+    camera.lookAt(LOOK);
+  }
+  const clampPhi = p => THREE.MathUtils.clamp(p, .3, 1.48);
+  // move the point we orbit around across the ground (pan / walk)
+  function moveLook(fwd, side) {
+    const st = Math.sin(orbit.theta), ct = Math.cos(orbit.theta);
+    lookGoal.x += -st * fwd + ct * side;
+    lookGoal.z += -ct * fwd - st * side;
+    const r = Math.hypot(lookGoal.x, lookGoal.z);
+    if (r > 55) { lookGoal.x *= 55 / r; lookGoal.z *= 55 / r; }
+  }
+
+  canvas.addEventListener('contextmenu', e => e.preventDefault());
+  canvas.addEventListener('pointerdown', e => {
+    dragging = true; dragMoved = 0; lastX = e.clientX; lastY = e.clientY;
+    dragMode = (e.button === 2 || e.shiftKey) ? 'pan' : 'orbit';
+    canvas.setPointerCapture(e.pointerId); canvas.style.cursor = 'grabbing';
+  });
+  canvas.addEventListener('pointerup', e => {
+    if (dragging && dragMoved < 6) aimSleigh(e.clientX, e.clientY);   // a tap calls the sleigh
+    dragging = false; canvas.style.cursor = 'grab';
+  });
+  canvas.addEventListener('pointercancel', () => { dragging = false; canvas.style.cursor = 'grab'; });
+  canvas.addEventListener('pointermove', e => {
+    if (dragging) {
+      const dx = e.clientX - lastX, dy = e.clientY - lastY;
+      dragMoved += Math.abs(dx) + Math.abs(dy);
+      if (dragMode === 'pan') {
+        const k = orbit.radius * .0016;
+        moveLook(dy * k, -dx * k);
+      } else {
+        goal.theta -= dx * .006;
+        goal.phi = clampPhi(goal.phi - dy * .005);
+      }
+      lastX = e.clientX; lastY = e.clientY;
+      lastInput = performance.now(); hint.classList.add('gone');
+    } else if (e.pointerType === 'mouse') {
+      aimSleigh(e.clientX, e.clientY);
+    }
+  });
+  canvas.addEventListener('wheel', e => {
+    e.preventDefault();
+    goal.radius = THREE.MathUtils.clamp(goal.radius * (1 + Math.sign(e.deltaY) * .08), orbit.minR, orbit.maxR);
+    lastInput = performance.now();
+  }, { passive: false });
+  addEventListener('keydown', e => {
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '+', '-', '=', 'w', 'a', 's', 'd', 'q', 'e'].includes(k)) {
+      keys[k] = true; e.preventDefault(); lastInput = performance.now(); hint.classList.add('gone');
+    }
+  });
+  addEventListener('keyup', e => { keys[e.key.length === 1 ? e.key.toLowerCase() : e.key] = false; });
+  addEventListener('blur', () => { for (const k in keys) keys[k] = false; });
+  canvas.style.cursor = 'grab';
+
+  // ---------- sleigh steering ----------
+  const ray = new THREE.Raycaster();
+  const plane = new THREE.Plane();
+  const ndc = new THREE.Vector2();
+  const target = new THREE.Vector3();
+  const tmp = new THREE.Vector3(), right = new THREE.Vector3();
+  let lastMove = -1e9, auto = false, halfW = 10;
+
+  // the sleigh flies on a vertical plane facing the camera, a little in front of the tree
+  function steeringPlane() {
+    camera.getWorldDirection(tmp); tmp.y = 0; tmp.normalize();
+    const p = LOOK.clone().addScaledVector(tmp, -1.6);
+    plane.setFromNormalAndCoplanarPoint(tmp.clone().negate(), p);
+  }
+  function aimSleigh(x, y) {
+    steeringPlane();
+    ndc.set((x / innerWidth) * 2 - 1, -(y / innerHeight) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    const p = new THREE.Vector3();
+    if (ray.ray.intersectPlane(plane, p)) {
+      p.y = Math.max(1.6, p.y);
+      target.copy(p);
+      lastMove = performance.now(); lastInput = lastMove;
+      hint.classList.add('gone');
+    }
+  }
+  autoBtn.addEventListener('click', () => {
+    auto = !auto; autoBtn.setAttribute('aria-pressed', String(auto));
+    if (auto) hint.classList.add('gone');
+  });
+
+  // parked far off to the left until called
+  rig.position.set(-22, 7, 0);
+  target.copy(rig.position);
+
+  function resize() {
+    const w = innerWidth, h = innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    const r = camera.aspect < 1 ? 15 / Math.max(camera.aspect, .5) * .62 : 15;
+    orbit.radius = goal.radius = r; orbit.maxR = Math.max(48, r * 2);
+    camera.updateProjectionMatrix();
+    halfW = (r - 1.6) * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.aspect;
+    rig.scale.setScalar(camera.aspect < 1 ? .62 : 1.05);
+    placeCamera();
+  }
+  addEventListener('resize', resize); resize();
+
+  // ---------- loop ----------
+  const clock = new THREE.Clock();
+  const prev = new THREE.Vector3().copy(rig.position);
+  const vel = new THREE.Vector3();
+  let heading = 0;
+  const wrap = a => Math.atan2(Math.sin(a), Math.cos(a));
+
+  function frame() {
+    const dt = Math.min(clock.getDelta(), .05);
+    const t = clock.elapsedTime;
+    const now = performance.now();
+
+    // camera: keys, gentle idle spin, easing toward the goal
+    const ks = 1.6 * dt;
+    if (keys.ArrowLeft) goal.theta -= ks;
+    if (keys.ArrowRight) goal.theta += ks;
+    if (keys.ArrowUp) goal.phi = clampPhi(goal.phi - ks * .7);
+    if (keys.ArrowDown) goal.phi = clampPhi(goal.phi + ks * .7);
+    if (keys['+'] || keys['=']) goal.radius = Math.max(orbit.minR, goal.radius - 8 * dt);
+    if (keys['-']) goal.radius = Math.min(orbit.maxR, goal.radius + 8 * dt);
+    // WASD walks around the world, Q/E turn
+    const walk = 9 * dt;
+    if (keys.w) moveLook(walk, 0);
+    if (keys.s) moveLook(-walk, 0);
+    if (keys.a) moveLook(0, -walk);
+    if (keys.d) moveLook(0, walk);
+    if (keys.q) goal.theta += ks;
+    if (keys.e) goal.theta -= ks;
+    lookGoal.y = hgt(lookGoal.x, lookGoal.z) + 3.4;
+    if ((auto || now - lastInput > 9000) && !dragging && !reduce) goal.theta += dt * .12;
+    LOOK.lerp(lookGoal, 1 - Math.pow(.002, dt));
+    const e = 1 - Math.pow(.0015, dt);
+    orbit.theta += (goal.theta - orbit.theta) * e;
+    orbit.phi += (goal.phi - orbit.phi) * e;
+    orbit.radius += (goal.radius - orbit.radius) * e;
+    placeCamera();
+
+    // where should the sleigh go?
+    if (auto) {
+      const a = t * .42;
+      target.set(Math.cos(a) * 4.6, 6.1 + Math.sin(t * 1.3) * .9, Math.sin(a) * 4.6);   // laps around the tree
+    } else if (now - lastMove > 2600 && lastMove > 0) {
+      // idle: fly away out of frame, toward the side it was heading
+      right.setFromMatrixColumn(camera.matrixWorld, 0); right.y = 0; right.normalize();
+      const dir = Math.cos(heading) * right.x - Math.sin(heading) * right.z >= 0 ? 1 : -1;
+      target.copy(LOOK).addScaledVector(right, dir * (halfW + 10)); target.y = rig.position.y + 2;
+    }
+    rig.position.lerp(target, 1 - Math.pow(.04, dt));
+    vel.subVectors(rig.position, prev).divideScalar(Math.max(dt, 1e-3));
+    prev.copy(rig.position);
+
+    // face where it's flying (sleigh's nose is local +x)
+    if (Math.hypot(vel.x, vel.z) > .6) heading = Math.atan2(-vel.z, vel.x);
+    yaw.rotation.y += wrap(heading - yaw.rotation.y) * (1 - Math.pow(.02, dt));
+    const tiltT = THREE.MathUtils.clamp(vel.y * .06, -.45, .45);
+    tilt.rotation.z += (tiltT - tilt.rotation.z) * (1 - Math.pow(.05, dt));
+    tilt.position.y = Math.sin(t * 3) * .06;
+
+    const speed = vel.length();
+    const gallop = 6 + Math.min(speed, 12);
+    deerLegs.forEach(l => { l.rotation.z = Math.sin(t * gallop + l.userData.phase) * (l.userData.front ? .6 : .45); });
+    deer1.position.y = .55 + Math.abs(Math.sin(t * gallop * .5)) * .05;
+    deer2.position.y = .55 + Math.abs(Math.cos(t * gallop * .5)) * .05;
+    // typing while the reindeer do the driving
+    arms.forEach((a, i) => { a.rotation.z = .7 + Math.max(0, Math.sin(t * 14 + i * 2)) * .06; });
+    hands.forEach((h, i) => { h.position.y = .25 + Math.max(0, Math.sin(t * 14 + i * 2)) * .02; });
+    screen.material.color.setHSL(.58, .8, .78 + Math.sin(t * 6) * .04);
+
+    // trail from the back of the sleigh
+    if (speed > .5 && !reduce) {
+      const backPt = new THREE.Vector3(-.8, .2, 0);
+      tilt.localToWorld(backPt);
+      emit(backPt); emit(backPt);
+    }
+    for (let i = 0; i < TRAIL; i++) {
+      if (tLife[i] <= 0) { tCol[i * 3] = tCol[i * 3 + 1] = tCol[i * 3 + 2] = 0; continue; }
+      tLife[i] -= dt * .9;
+      tPos[i * 3] += tVel[i * 3] * dt; tPos[i * 3 + 1] += tVel[i * 3 + 1] * dt; tPos[i * 3 + 2] += tVel[i * 3 + 2] * dt;
+      const k = Math.max(tLife[i], 0) * (.6 + .4 * Math.sin(t * 20 + i));
+      tCol[i * 3] = sparkC.r * k; tCol[i * 3 + 1] = sparkC.g * k; tCol[i * 3 + 2] = sparkC.b * k;
+    }
+    tGeo.attributes.position.needsUpdate = true;
+    tGeo.attributes.color.needsUpdate = true;
+
+    // tree lights + star
+    bulbs.forEach(b => {
+      const u = b.userData;
+      const k = reduce ? 1 : .55 + .45 * Math.sin(t * u.speed + u.phase);
+      b.material.color.copy(u.base).multiplyScalar(.35 + .65 * k);
+    });
+    star.rotation.y = t * .6;
+    star.scale.setScalar(1 + Math.sin(t * 2) * .08);
+    warm.intensity = 1 + Math.sin(t * 1.7) * .15;
+
+    // snow
+    const fall = reduce ? .3 : 1;
+    for (let i = 0; i < FLAKES; i++) {
+      sPos[i * 3 + 1] -= sVel[i] * dt * fall;
+      sPos[i * 3] += Math.sin(t * .7 + i) * dt * .12;
+      if (sPos[i * 3 + 1] < 0) sPos[i * 3 + 1] = 16;
+    }
+    snowGeo.attributes.position.needsUpdate = true;
+    snowPts.position.set(LOOK.x, LOOK.y - 3.4, LOOK.z);
+
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
